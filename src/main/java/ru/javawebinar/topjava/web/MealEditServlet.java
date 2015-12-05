@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by B on 05.12.2015.
+ * Created by Maria on 05.12.2015.
  */
 public class MealEditServlet extends HttpServlet {
     private static final LoggerWrapper LOG = LoggerWrapper.get(UserServlet.class);
@@ -23,15 +23,12 @@ public class MealEditServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOG.debug("redirect to mealEdit");
-       /* if (request.getParameter("show_text") != null) {*/
-        // request.getRequestDispatcher("/mealEdit.jsp.jsp").forward(request, response);
         response.sendRedirect("mealEdit.jsp");
     }
 
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-      /*  super.doPost(req, resp);*/
         LOG.debug("record meal");
 
         String mealDateStr = req.getParameter("date");

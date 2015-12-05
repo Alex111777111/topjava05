@@ -1,13 +1,12 @@
 <%--
   Created by IntelliJ IDEA.
-  User: B
+  User: Maria
   Date: 04.12.2015
   Time: 15:59
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page import="ru.javawebinar.topjava.web.MealServlet"%>
 <html>
 <head>
     <meta charset="utf-8">
@@ -15,6 +14,7 @@
 </head>
 <body>
 <h1> Список еды</h1>
+
 <div>
     <form id="filter" name="filter" action="MealServlet"
           method="get">
@@ -24,12 +24,14 @@
             <label for="textfield">To Date:</label>
             <input type="text" name="toDate" id="toDate">
         </p>
+
         <p>
             <label for="textfield">Text Field:</label>
             <input type="text" name="textfield" id="textfield">
             <label for="textfield2">Text Field:</label>
             <input type="text" name="textfield2" id="textfield2">
         </p>
+
         <p>
             <input type="button" name="button2" id="button2" value="Filter">
         </p>
@@ -37,10 +39,8 @@
 </div>
 
 <div>
-    <form id="mealList" action="mealEdit"  method="get">
-  <%--    <input type="text" --%>
-        <%--<INPUT TYPE="hidden" id = "addMeal" disabled="disabled" form="mealList" action="MealEditServlet"  method="GET" >
-     --%> <p>
+    <form id="mealList" action="mealEdit" method="get">
+        <p>
             <input class="button" type="submit" value="Добавить еду">
         </p>
     </form>
@@ -64,20 +64,23 @@
         </tr>
         <c:forEach items="${list}" var="meal">
             <tr>
-                <c:set var="color" value=""/>
+                    <%--<c:set var="color" value=""/>--%>
+                <c:set var="color" scope="session" value=""/>
+                <c:choose>
+                    <c:when test="${meal.getExceed()}">
+                        <c:set var="color" scope="session" value="#E90234"/>
+                    </c:when>
+                    <c:when test="${!meal.getExceed()}">
+                        <c:set var="color" scope="session" value="#06B836"/>
+                    </c:when>
+                </c:choose>
 
-                <c:if test="${meal.getExceed()}">
-                <p>color = " style="color: #DB072F"" <p>
-                </c:if>
-                <c:if test="${!meal.getExceed()}">
-                <p>color = " style="color: #06B836""<p>
-                </c:if>
 
                 <td style="color: ${color}"><c:out value="${meal.dateTime}"/></td>
-                <td ${color}><c:out value="${meal.description}"/></td>
-                <td ${color}><c:out value="${meal.calories}"/></td>
-                <td ${color}></td>
-                <td ${color}></td>
+                <td style="color: ${color}"><c:out value="${meal.description}"/></td>
+                <td style="color: ${color}"><c:out value="${meal.calories}"/></td>
+                <td style="color: ${color}"></td>
+                <td style="color: ${color}"></td>
             </tr>
         </c:forEach>
         </tbody>

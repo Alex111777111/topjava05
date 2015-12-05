@@ -60,7 +60,7 @@ public class UserMealsUtil {
         return mealExceeded;
     }
 
-    public static List<UserMealWithExceed> getExceed(List<UserMeal> mealList, int caloriesPerDay){
+    public static List<UserMealWithExceed> getExceed(List<UserMeal> mealList, int caloriesPerDay) {
         Map<LocalDate, Integer> mapCalories =
                 mealList
                         .stream()

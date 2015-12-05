@@ -11,11 +11,11 @@ public class UserMeal {
 
     protected String description;
 
-    protected  int calories;
+    protected int calories;
 
     public UserMeal(LocalDateTime dateTime) {
         this.dateTime = dateTime;
-       this.description = description;
+        this.description = description;
         this.calories = calories;
     }
 

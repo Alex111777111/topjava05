@@ -1,6 +1,6 @@
 <%--
   Created by IntelliJ IDEA.
-  User: B
+  User: Maria
   Date: 03.12.2015
   Time: 17:27
   To change this template use File | Settings | File Templates.
@@ -17,8 +17,8 @@
 <hr/>
 <p></p>
 <tbody>
-<form id="mealEdit" action="mealEdit"  method="POST">
-<table width="408" border="0">
+<form id="mealEdit" action="mealEdit" method="POST">
+    <table width="408" border="0">
 
         <tr>
             <td width="156"><strong>Date</strong></td>
@@ -34,10 +34,10 @@
         </tr>
 
 
-</table>
-<p>
-    <input class="button" type="submit" value="Save">
-</p>
+    </table>
+    <p>
+        <input class="button" type="submit" value="Save">
+    </p>
 </form>
 </tbody>
 </body>
