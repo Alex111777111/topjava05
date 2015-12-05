@@ -37,10 +37,11 @@
 </div>
 
 <div>
-    <form id="mealList" name="mealList" action="mealEdit"
-          method="get">
-        <p>
-            <input type="button" action='mealEdit'  method='get' name="button" id="button" value="Добавить еду">
+    <form id="mealList" action="mealEdit"  method="get">
+  <%--    <input type="text" --%>
+        <%--<INPUT TYPE="hidden" id = "addMeal" disabled="disabled" form="mealList" action="MealEditServlet"  method="GET" >
+     --%> <p>
+            <input class="button" type="submit" value="Добавить еду">
         </p>
     </form>
 
@@ -61,13 +62,22 @@
             <td width="70"></td>
             <td width="86"></td>
         </tr>
-        <c:forEach items="${mealList}" var="meal">
+        <c:forEach items="${list}" var="meal">
             <tr>
-                <td><c:out value="${meal.date}"/></td>
-                <td><c:out value="${meal.description}"/></td>
-                <td><c:out value="${meal.calories}"/></td>
-                <td></td>
-                <td>></td>
+                <c:set var="color" value=""/>
+
+                <c:if test="${meal.getExceed()}">
+                <p>color = " style="color: #DB072F"" <p>
+                </c:if>
+                <c:if test="${!meal.getExceed()}">
+                <p>color = " style="color: #06B836""<p>
+                </c:if>
+
+                <td style="color: ${color}"><c:out value="${meal.dateTime}"/></td>
+                <td ${color}><c:out value="${meal.description}"/></td>
+                <td ${color}><c:out value="${meal.calories}"/></td>
+                <td ${color}></td>
+                <td ${color}></td>
             </tr>
         </c:forEach>
         </tbody>

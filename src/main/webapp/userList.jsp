@@ -5,6 +5,6 @@
 </head>
 <body>
 <h2>User list</h2>
-<h2>Лист "<a href=/mealList" >MealList"</a></h2>
+<h2>Лист "<a href=/mealList.jsp" >MealList"</a></h2>
 </body>
 </html>

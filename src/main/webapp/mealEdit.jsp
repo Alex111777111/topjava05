@@ -16,13 +16,13 @@
 <h1>Редактировать еду</h1>
 <hr/>
 <p></p>
+<tbody>
+<form id="mealEdit" action="mealEdit"  method="POST">
 <table width="408" border="0">
-    <tbody>
-    <form id="mealEdit" name="mealEdit" action="mealList"
-          method="POST">
+
         <tr>
             <td width="156"><strong>Date</strong></td>
-            <td width="242"><input name="datetime-local" type="datetime-local" id="datetime-local"></td>
+            <td width="242"><input name="date" type="datetime-local" id="date"></td>
         </tr>
         <tr>
             <td><strong>Description</strong></td>
@@ -32,11 +32,13 @@
             <td><strong>Calories</strong></td>
             <td><input type="text" name="calories" id="calories"></td>
         </tr>
-    </form>
-    </tbody>
+
+
 </table>
 <p>
-    <input type="button" name="button" id="button" value="Save">
+    <input class="button" type="submit" value="Save">
 </p>
+</form>
+</tbody>
 </body>
 </html>

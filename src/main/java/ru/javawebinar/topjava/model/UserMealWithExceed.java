@@ -1,11 +1,14 @@
 package ru.javawebinar.topjava.model;
 
+import org.springframework.stereotype.Component;
+
 import java.time.LocalDateTime;
 
 /**
  * GKislin
  * 11.01.2015.
  */
+
 public class UserMealWithExceed {
     protected final LocalDateTime dateTime;
 
@@ -30,5 +33,21 @@ public class UserMealWithExceed {
                 ", calories=" + calories +
                 ", exceed=" + exceed +
                 '}';
+    }
+
+    public int getCalories() {
+        return calories;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public boolean getExceed() {
+        return exceed;
     }
 }
