@@ -39,7 +39,7 @@
 </div>
 
 <div>
-    <form id="mealList" action="mealEdit" method="get">
+    <form id="addMealList" action="mealEdit" method="get">
         <p>
             <input class="button" type="submit" value="Добавить еду">
         </p>
@@ -64,7 +64,7 @@
         </tr>
         <c:forEach items="${list}" var="meal">
             <tr>
-                    <%--<c:set var="color" value=""/>--%>
+
                 <c:set var="color" scope="session" value=""/>
                 <c:choose>
                     <c:when test="${meal.getExceed()}">
@@ -75,12 +75,13 @@
                     </c:when>
                 </c:choose>
 
-
+                    <%--  <c:url var="editUrl" value="/mealEdit?=${meal.id}"/>
+                      <c:url var="deleteUrl" value="/maria/delete?id=${meal.id}"/>--%>
                 <td style="color: ${color}"><c:out value="${meal.dateTime}"/></td>
                 <td style="color: ${color}"><c:out value="${meal.description}"/></td>
                 <td style="color: ${color}"><c:out value="${meal.calories}"/></td>
-                <td style="color: ${color}"></td>
-                <td style="color: ${color}"></td>
+                <td><a href="${editUrl}">Edit</a></td>
+                <td><a href="${deleteUrl}">Delete</a></td>
             </tr>
         </c:forEach>
         </tbody>

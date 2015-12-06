@@ -29,27 +29,29 @@ public class MealEditServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        LOG.debug("record meal");
+        if (req.getParameter("addMeal") == "") {
+            LOG.debug("record meal");
 
-        String mealDateStr = req.getParameter("date");
-        String mealDescription = req.getParameter("description");
-        String mealCalStr = req.getParameter("calories");
-
-
-        Map<String, String> mapMeal = new HashMap<>();
-        mapMeal.put("date", mealDateStr);
-        mapMeal.put("description", mealDescription);
-        mapMeal.put("calories", mealCalStr);
+            String mealDateStr = req.getParameter("date");
+            String mealDescription = req.getParameter("description");
+            String mealCalStr = req.getParameter("calories");
 
 
-        UserMealDao umd = new UserMealDao();
-        UserMealWithExceed um = umd.create(mapMeal);
-        List<UserMealWithExceed> list = new ArrayList<>();
-        list.add(um);
-
-        req.setAttribute("list", list);
-        req.getRequestDispatcher("/mealList.jsp").forward(req, resp);
+            Map<String, String> mapMeal = new HashMap<>();
+            mapMeal.put("date", mealDateStr);
+            mapMeal.put("description", mealDescription);
+            mapMeal.put("calories", mealCalStr);
 
 
+            UserMealDao umd = new UserMealDao();
+            UserMealWithExceed um = umd.create(mapMeal);
+            List<UserMealWithExceed> list = new ArrayList<>();
+            list.add(um);
+
+            req.setAttribute("list", list);
+            req.getRequestDispatcher("/mealList.jsp").forward(req, resp);
+
+
+        }
     }
 }
