@@ -29,7 +29,7 @@ public class MealEditServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (req.getParameter("addMeal") == "") {
+        if (req.getParameter("addMeal") == null) {
             LOG.debug("record meal");
 
             String mealDateStr = req.getParameter("date");
