@@ -34,6 +34,10 @@
             <td><strong>Calories</strong></td>
             <td><input type="text" name="calories" id="calories" value="${ume.calories}"></td>
         </tr>
+        <tr>
+            <td></td>
+            <td><INPUT name="id" TYPE="hidden" <%--disabled="disabled"--%> id="id" value="${ume.id}"></td>
+        </tr>
 
 
     </table>

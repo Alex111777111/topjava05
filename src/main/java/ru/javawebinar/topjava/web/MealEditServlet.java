@@ -35,14 +35,19 @@ public class MealEditServlet extends HttpServlet {
                 request.setAttribute("uMeal", ume);
                 request.getRequestDispatcher("/mealEdit.jsp").forward(request, response);
             }
-
+            if (request.getParameter("action").equals("delete")) {
+                long id = Long.parseLong(request.getParameter("id"));
+                UserMealDao umd = UserMealDao.getInstance();
+            }
         }
     }
 
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        {
+        UserMealDao umd = UserMealDao.getInstance();
+        // if (req.getParameterMap().size() == 3){
+        if (req.getParameter("id").isEmpty()) {
             LOG.debug("record meal");
 
             String mealDateStr = req.getParameter("date");
@@ -55,15 +60,34 @@ public class MealEditServlet extends HttpServlet {
             mapMeal.put("description", mealDescription);
             mapMeal.put("calories", mealCalStr);
 
-
-            UserMealDao umd = UserMealDao.getInstance();
             UserMealWithExceed um = umd.create(mapMeal);
             List<UserMealWithExceed> list = new ArrayList<>();
             list.add(um);
 
             req.setAttribute("list", list);
             req.getRequestDispatcher("/mealList.jsp").forward(req, resp);
+        } else if (req.getParameterMap().size() == 4) {
+            LOG.debug("update meal");
+
+            String mealDateStr = req.getParameter("date");
+            String mealDescription = req.getParameter("description");
+            String mealCalStr = req.getParameter("calories");
+            String mealIdStr = req.getParameter("id");
+
+            UserMealWithExceed oldUser = umd.getUme(); //TODO ById
+            Map<Long, UserMealWithExceed> mapMeal = new HashMap<>();
+            mapMeal.put(oldUser.getId(), oldUser);
+
+            UserMealWithExceed newUser = umd.update(mapMeal, Long.parseLong(mealIdStr), mealDateStr, mealDescription, mealCalStr);
+            umd.setUme(newUser);
+            List<UserMealWithExceed> list = new ArrayList<>();
+            list.add(newUser);
+
+            req.setAttribute("list", list);
+            req.getRequestDispatcher("/mealList.jsp").forward(req, resp);
+
         }
+
 
     }
 }
