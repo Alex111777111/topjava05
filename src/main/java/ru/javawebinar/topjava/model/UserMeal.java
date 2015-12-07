@@ -13,7 +13,7 @@ public class UserMeal {
 
     protected int calories;
 
-    protected int id;
+    protected long id;
 
     public UserMeal(LocalDateTime dateTime) {
         this.dateTime = dateTime;
@@ -45,18 +45,18 @@ public class UserMeal {
         this.description = description;
     }
 
-    public UserMeal(int calories, LocalDateTime dateTime, String description, int id) {
+    public UserMeal(int calories, LocalDateTime dateTime, String description, long id) {
         this.calories = calories;
         this.dateTime = dateTime;
         this.description = description;
         this.id = id;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

@@ -16,7 +16,27 @@ import java.util.Map;
  */
 @Repository
 public class UserMealDao {
+    private static UserMealDao instance;
+    UserMealWithExceed ume;
 
+    public static synchronized UserMealDao getInstance() {
+        if (instance == null) {
+            instance = new UserMealDao();
+        }
+        return instance;
+    }
+
+    public UserMealWithExceed getUme() {
+        return ume;
+    }
+
+    public void setUme(UserMealWithExceed ume) {
+        this.ume = ume;
+    }
+
+    public UserMealDao() {
+
+    }
 
     public UserMealWithExceed create(Map<String, String> mapMeal) {
         UserMeal um = new UserMeal
@@ -24,10 +44,11 @@ public class UserMealDao {
         List<UserMeal> userMeals = new ArrayList<>();
         userMeals.add(um);
         List<UserMealWithExceed> umEList = UserMealsUtil.getExceed(userMeals, 2000);
-        return umEList.get(0);
+        ume = umEList.get(0);
+        return ume;
     }
 
-    public void delete(Map<Integer, UserMealWithExceed> mapMeal, int id) {
+    public void delete(Map<Long, UserMealWithExceed> mapMeal, long id) {
        /* Iterator<Integer, UserMealWithExceed> iterator = mapMeal.entrySet().iterator();
         while (iterator.hasNext()) {
  //Map.Entry<Integer, UserMealWithExceed> entry = (Map.Entry<Integer, UserMealWithExceed>) iterator.hasNext();
@@ -41,8 +62,8 @@ public class UserMealDao {
                 });
     }
 
-    public Map<Integer, UserMealWithExceed> findByDate(Map<Integer, UserMealWithExceed> mapMeal, LocalDate date) {
-        Map<Integer, UserMealWithExceed> mapByDate = new HashMap<>();
+    public Map<Long, UserMealWithExceed> findByDate(Map<Long, UserMealWithExceed> mapMeal, LocalDate date) {
+        Map<Long, UserMealWithExceed> mapByDate = new HashMap<>();
         mapMeal
                 .forEach((k, v) -> {
                     if (v.getDateTime().toLocalDate().equals(date))
@@ -51,7 +72,7 @@ public class UserMealDao {
         return mapByDate;
     }
 
-    public UserMealWithExceed update(Map<Integer, UserMealWithExceed> mapMeal, int id, String newDate, String newDescription, String newCalories) {
+    public UserMealWithExceed update(Map<Long, UserMealWithExceed> mapMeal, long id, String newDate, String newDescription, String newCalories) {
        /* mapMeal.put("date", newDate);
         mapMeal.put("description", newDescription);
         mapMeal.put("calories", newCalories);
@@ -66,6 +87,22 @@ public class UserMealDao {
                     }
                 });
 
+        if (listMeal.size() > 0) {
+            ume = UserMealsUtil.getExceed(listMeal, 2000).get(0);
+
+        }
+        return ume;
+    }
+
+    public UserMealWithExceed findById(Map<Long, UserMealWithExceed> mapMeal, long id) {
+        List<UserMeal> listMeal = new ArrayList<>();
+        UserMealWithExceed ume = null;
+        mapMeal
+                .forEach((k, v) -> {
+                    if (k == id) {
+                        listMeal.add(new UserMeal(v.getCalories(), v.getDateTime(), v.getDescription(), id));
+                    }
+                });
         if (listMeal.size() > 0) {
             ume = UserMealsUtil.getExceed(listMeal, 2000).get(0);
 

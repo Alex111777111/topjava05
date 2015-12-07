@@ -23,13 +23,26 @@ public class MealEditServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOG.debug("redirect to mealEdit");
-        response.sendRedirect("mealEdit.jsp");
+        if (!request.getParameterNames().hasMoreElements()) {
+            response.sendRedirect("mealEdit.jsp");
+        } else {
+            if (request.getParameter("action").equals("edit")) {
+                long id = Long.parseLong(request.getParameter("id"));
+                UserMealDao umd = UserMealDao.getInstance();
+                Map<Long, UserMealWithExceed> mapMeal = new HashMap<>();
+                mapMeal.put(umd.getUme().getId(), umd.getUme());
+                UserMealWithExceed ume = umd.findById(mapMeal, id);
+                request.setAttribute("uMeal", ume);
+                request.getRequestDispatcher("/mealEdit.jsp").forward(request, response);
+            }
+
+        }
     }
 
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (req.getParameter("addMeal") == null) {
+        {
             LOG.debug("record meal");
 
             String mealDateStr = req.getParameter("date");
@@ -43,15 +56,14 @@ public class MealEditServlet extends HttpServlet {
             mapMeal.put("calories", mealCalStr);
 
 
-            UserMealDao umd = new UserMealDao();
+            UserMealDao umd = UserMealDao.getInstance();
             UserMealWithExceed um = umd.create(mapMeal);
             List<UserMealWithExceed> list = new ArrayList<>();
             list.add(um);
 
             req.setAttribute("list", list);
             req.getRequestDispatcher("/mealList.jsp").forward(req, resp);
-
-
         }
+
     }
 }

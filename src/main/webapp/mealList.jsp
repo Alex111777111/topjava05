@@ -40,7 +40,8 @@
 
 <div>
     <form id="addMealList" action="mealEdit" method="get">
-        <p>
+        <%-- <INPUT name="addMeal" TYPE="hidden" disabled="disabled" id = "addMeal" form="addMealList" value="*" method="GET" >
+     --%> <p>
             <input class="button" type="submit" value="Добавить еду">
         </p>
     </form>
@@ -53,6 +54,7 @@
 </div>
 <hr/>
 <div>
+    <form id="edit" action="mealEdit" method="POST">
     <table width="781" border="1">
         <tbody>
         <tr>
@@ -75,8 +77,8 @@
                     </c:when>
                 </c:choose>
 
-                    <%--  <c:url var="editUrl" value="/mealEdit?=${meal.id}"/>
-                      <c:url var="deleteUrl" value="/maria/delete?id=${meal.id}"/>--%>
+                <c:url var="editUrl" value="/mealEdit?action=edit&id=${meal.id}"/>
+                <c:url var="deleteUrl" value="/mealEdit?action=delete&id=${meal.id}"/>
                 <td style="color: ${color}"><c:out value="${meal.dateTime}"/></td>
                 <td style="color: ${color}"><c:out value="${meal.description}"/></td>
                 <td style="color: ${color}"><c:out value="${meal.calories}"/></td>
@@ -86,8 +88,9 @@
         </c:forEach>
         </tbody>
     </table>
-
+    </form>
 </div>
+
 
 </body>
 </html>
