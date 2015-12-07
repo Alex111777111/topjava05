@@ -26,18 +26,25 @@ public class MealEditServlet extends HttpServlet {
         if (!request.getParameterNames().hasMoreElements()) {
             response.sendRedirect("mealEdit.jsp");
         } else {
+            UserMealDao umd = UserMealDao.getInstance();
             if (request.getParameter("action").equals("edit")) {
                 long id = Long.parseLong(request.getParameter("id"));
-                UserMealDao umd = UserMealDao.getInstance();
                 Map<Long, UserMealWithExceed> mapMeal = new HashMap<>();
                 mapMeal.put(umd.getUme().getId(), umd.getUme());
-                UserMealWithExceed ume = umd.findById(mapMeal, id);
-                request.setAttribute("uMeal", ume);
+                // UserMealWithExceed ume = umd.findById(mapMeal, id); TODO byId
+                request.setAttribute("uMeal", umd.getUme());
                 request.getRequestDispatcher("/mealEdit.jsp").forward(request, response);
             }
             if (request.getParameter("action").equals("delete")) {
                 long id = Long.parseLong(request.getParameter("id"));
-                UserMealDao umd = UserMealDao.getInstance();
+                // UserMealWithExceed ume = umd.findById(mapMeal, id); TODO byId
+                umd.setUme(null);
+                //umd.delete();
+               /* request.setAttribute("uMeal", umd.getUme());
+                request.getRequestDispatcher("/mealEdit.jsp").forward(request, response);*/
+                response.sendRedirect("mealList.jsp");
+
+
             }
         }
     }
@@ -73,8 +80,8 @@ public class MealEditServlet extends HttpServlet {
             String mealDescription = req.getParameter("description");
             String mealCalStr = req.getParameter("calories");
             String mealIdStr = req.getParameter("id");
-
-            UserMealWithExceed oldUser = umd.getUme(); //TODO ById
+            // UserMealWithExceed ume = umd.findById(mapMeal, id); TODO byId
+            UserMealWithExceed oldUser = umd.getUme();
             Map<Long, UserMealWithExceed> mapMeal = new HashMap<>();
             mapMeal.put(oldUser.getId(), oldUser);
 

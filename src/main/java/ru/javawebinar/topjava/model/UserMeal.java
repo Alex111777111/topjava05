@@ -27,18 +27,6 @@ public class UserMeal {
         this.description = description;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public int getCalories() {
-        return calories;
-    }
-
     public UserMeal(int calories, LocalDateTime dateTime, String description) {
         this.calories = calories;
         this.dateTime = dateTime;
@@ -52,23 +40,35 @@ public class UserMeal {
         this.id = id;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public void setCalories(int calories) {
-        this.calories = calories;
+    public LocalDateTime getDateTime() {
+        return dateTime;
     }
 
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getCalories() {
+        return calories;
+    }
+
+    public void setCalories(int calories) {
+        this.calories = calories;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }
