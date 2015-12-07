@@ -19,21 +19,21 @@
     <form id="filter" name="filter" action="MealServlet"
           method="get">
         <p>
-            <label for="textfield">From Date:</label>
+            <label for="fromDate">From Date:</label>
             <input type="text" name="fromDate" id="fromDate">
-            <label for="textfield">To Date:</label>
+            <label for="toDate">To Date:</label>
             <input type="text" name="toDate" id="toDate">
         </p>
 
         <p>
-            <label for="textfield">Text Field:</label>
-            <input type="text" name="textfield" id="textfield">
-            <label for="textfield2">Text Field:</label>
-            <input type="text" name="textfield2" id="textfield2">
+            <label for="fromTime">From Time:</label>
+            <input type="text" name="fromTime" id="fromTime">
+            <label for="toTime">To Time:</label>
+            <input type="text" name="toTime" id="toTime">
         </p>
 
         <p>
-            <input type="button" name="button2" id="button2" value="Filter">
+            <input class="button" type="submit" value="Filter">
         </p>
     </form>
 </div>

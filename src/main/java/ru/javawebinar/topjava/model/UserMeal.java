@@ -13,6 +13,8 @@ public class UserMeal {
 
     protected int calories;
 
+    protected int id;
+
     public UserMeal(LocalDateTime dateTime) {
         this.dateTime = dateTime;
         this.description = description;
@@ -40,6 +42,33 @@ public class UserMeal {
     public UserMeal(int calories, LocalDateTime dateTime, String description) {
         this.calories = calories;
         this.dateTime = dateTime;
+        this.description = description;
+    }
+
+    public UserMeal(int calories, LocalDateTime dateTime, String description, int id) {
+        this.calories = calories;
+        this.dateTime = dateTime;
+        this.description = description;
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setCalories(int calories) {
+        this.calories = calories;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public void setDescription(String description) {
         this.description = description;
     }
 }

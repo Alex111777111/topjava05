@@ -7,6 +7,7 @@ import ru.javawebinar.topjava.model.UserMealWithExceed;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,22 +27,49 @@ public class UserMealDao {
         return umEList.get(0);
     }
 
-    public void delete(Map<String, String> mapMeal, LocalDateTime dateTime) {
-        if (LocalDateTime.parse(mapMeal.get("date")).equals(dateTime)) {
-            mapMeal.clear();
-        }
+    public void delete(Map<Integer, UserMealWithExceed> mapMeal, int id) {
+       /* Iterator<Integer, UserMealWithExceed> iterator = mapMeal.entrySet().iterator();
+        while (iterator.hasNext()) {
+ //Map.Entry<Integer, UserMealWithExceed> entry = (Map.Entry<Integer, UserMealWithExceed>) iterator.hasNext();
+            if (entry.getKey().equals(id)) {
+
+        }*/
+        mapMeal
+                .forEach((k, v) -> {
+                    if (k == id) mapMeal.remove(k);
+
+                });
     }
 
-    public Map<String, String> findByDate(Map<String, String> mapMeal, LocalDate date) {
-        if (LocalDateTime.parse(mapMeal.get("date")).toLocalDate().equals(date)) {
-            return mapMeal;
-        } else return null;
+    public Map<Integer, UserMealWithExceed> findByDate(Map<Integer, UserMealWithExceed> mapMeal, LocalDate date) {
+        Map<Integer, UserMealWithExceed> mapByDate = new HashMap<>();
+        mapMeal
+                .forEach((k, v) -> {
+                    if (v.getDateTime().toLocalDate().equals(date))
+                        mapByDate.put(k, v);
+                });
+        return mapByDate;
     }
 
-    public Map<String, String> update(Map<String, String> mapMeal, String newDate, String newDescription, String newCalories) {
-        mapMeal.put("date", newDate);
+    public UserMealWithExceed update(Map<Integer, UserMealWithExceed> mapMeal, int id, String newDate, String newDescription, String newCalories) {
+       /* mapMeal.put("date", newDate);
         mapMeal.put("description", newDescription);
         mapMeal.put("calories", newCalories);
-        return mapMeal;
+        return mapMeal;*/
+        List<UserMeal> listMeal = new ArrayList<>();
+        UserMealWithExceed ume = null;
+        mapMeal
+                .forEach((k, v) -> {
+                    if (k == id) {
+                        listMeal.add(
+                                new UserMeal(Integer.parseInt(newCalories), LocalDateTime.parse(newDate), newDescription, id));
+                    }
+                });
+
+        if (listMeal.size() > 0) {
+            ume = UserMealsUtil.getExceed(listMeal, 2000).get(0);
+
+        }
+        return ume;
     }
 }
