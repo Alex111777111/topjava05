@@ -38,6 +38,10 @@
             <td></td>
             <td><INPUT name="id" TYPE="hidden" <%--disabled="disabled"--%> id="id" value="${ume.id}"></td>
         </tr>
+        <tr>
+            <td></td>
+            <td><h3>${message}</h3></td>
+        </tr>
 
 
     </table>

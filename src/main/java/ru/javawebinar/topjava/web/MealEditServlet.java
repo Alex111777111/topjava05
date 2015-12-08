@@ -12,10 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Maria on 05.12.2015.
@@ -61,48 +59,31 @@ public class MealEditServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (req.getParameter("id").isEmpty()) {
-            LOG.debug("record meal");
-
-            String mealDateStr = req.getParameter("date");
-            String mealDescription = req.getParameter("description");
-            String mealCalStr = req.getParameter("calories");
 
 
-            Map<String, String> mapMeal = new HashMap<>();
-            mapMeal.put("date", mealDateStr);
-            mapMeal.put("description", mealDescription);
-            mapMeal.put("calories", mealCalStr);
+        String mealDateStr = req.getParameter("date");
+        String mealDescription = req.getParameter("description");
+        String mealCalStr = req.getParameter("calories");
+        if (!(mealCalStr.equals("") || mealDateStr.equals("") || mealDescription.equals(""))) {
+            if (req.getParameter("id").isEmpty()) {
+                LOG.debug("record meal");
+                UserMeal userMeal = new UserMeal
+                        (LocalDateTime.parse(mealDateStr), mealDescription, Integer.parseInt(mealCalStr));
+                umd.create(userMeal);
+            } else {
+                LOG.debug("update meal");
+                String mealIdStr = req.getParameter("id");
+                UserMeal um = new UserMeal(Integer.parseInt(mealCalStr), LocalDateTime.parse(mealDateStr), mealDescription, Long.parseLong(mealIdStr));
+                umd.update(um);
 
-            UserMeal um = umd.create(mapMeal);
+            }
             List<UserMealWithExceed> list = UserMealsUtil.getUserMealWithExceeds();
             req.setAttribute("list", list);
             req.getRequestDispatcher("/mealList.jsp").forward(req, resp);
         } else {
-            LOG.debug("update meal");
 
-            String mealDateStr = req.getParameter("date");
-            String mealDescription = req.getParameter("description");
-            String mealCalStr = req.getParameter("calories");
-            String mealIdStr = req.getParameter("id");
-            //  UserMeal um = umd.findById(umd.mapUserMeal, Long.parseLong(mealIdStr));
-            // UserMealWithExceed oldUser = umd.getUme();
-
-
-            UserMeal newUser = umd.update(Long.parseLong(mealIdStr), mealDateStr, mealDescription, mealCalStr);
-
-            List<UserMeal> userMeals = new ArrayList<>();
-            userMeals.add(newUser);
-            List<UserMealWithExceed> umEList = UserMealsUtil.getExceed(userMeals, 2000);
-            UserMealWithExceed ume = umEList.get(0);
-
-            List<UserMealWithExceed> list = new ArrayList<>();
-            list.add(ume);
-            req.setAttribute("list", list);
-            req.getRequestDispatcher("/mealList.jsp").forward(req, resp);
-
+            req.setAttribute("message", "Fill in all the fields");
+            req.getRequestDispatcher("/mealEdit.jsp").forward(req, resp);
         }
-
-
     }
 }

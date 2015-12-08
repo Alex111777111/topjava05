@@ -17,19 +17,19 @@ public class UserMealDao implements UserDao {
     public UserMealDao() {
     }
 
-    public UserMeal create(Map<String, String> mapMealStr) {
-        UserMeal um = new UserMeal
-                (LocalDateTime.parse(mapMealStr.get("date")), mapMealStr.get("description"), Integer.parseInt(mapMealStr.get("calories")));
+    @Override
+    public void create(UserMeal um) {
         um.setId(mapUserMeal.size() + 1);
         mapUserMeal.put(um.getId(), um);
-        return um;
     }
 
+    @Override
     public void delete(Map<Long, UserMeal> mapMeal, long id) {
         mapUserMeal.remove(id);
         mapMeal.remove(id);
     }
 
+    @Override
     public Map<Long, UserMeal> findByDate(Map<Long, UserMeal> mapMeal, LocalDate date) {
         Map<Long, UserMeal> mapByDate =
                 mapMeal
@@ -40,12 +40,14 @@ public class UserMealDao implements UserDao {
         return mapByDate;
     }
 
-    public UserMeal update(long id, String newDate, String newDescription, String newCalories) {
-        UserMeal um = new UserMeal(Integer.parseInt(newCalories), LocalDateTime.parse(newDate), newDescription, id);
-        mapUserMeal.put(id, um);
-        return um;
+    @Override
+    public void update(UserMeal um) {
+        UserMeal neUserMeal = new UserMeal(um.getCalories(), um.getDateTime(), um.getDescription(), um.getId());
+        mapUserMeal.put(um.getId(), neUserMeal);
+
     }
 
+    @Override
     public UserMeal findById(Map<Long, UserMeal> mapMeal, long id) {
         return mapMeal.get(id);
     }
