@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.util;
 
+import ru.javawebinar.topjava.dao.UserDao;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.model.UserMealWithExceed;
 
@@ -69,12 +70,20 @@ public class UserMealsUtil {
                                 Collectors.summingInt(UserMeal::getCalories)));
         List<UserMealWithExceed> userMealWithExceeds = mealList
                 .stream()
-                .map((s) -> new UserMealWithExceed(s.getDateTime(), s.getDescription(), s.getCalories(),
+                .map((s) -> new UserMealWithExceed(s.getId(), s.getCalories(), s.getDateTime(), s.getDescription(),
                         ((mapCalories.get(s.getDateTime().toLocalDate()) > caloriesPerDay))))
+                .sorted((o1, o2) -> o1.getDateTime().compareTo(o2.getDateTime()))
                 .collect(Collectors.toList());
 
 
         return userMealWithExceeds;
+    }
+
+    public static List<UserMealWithExceed> getUserMealWithExceeds() {
+        UserDao umd = UserDao.instance;
+        List<UserMeal> userMeals = new ArrayList<>();
+        userMeals.addAll(umd.mapUserMeal.values());
+        return UserMealsUtil.getExceed(userMeals, 2000);
     }
 
 }

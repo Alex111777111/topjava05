@@ -15,15 +15,13 @@ import java.util.stream.Collectors;
 public class UserMealDao implements UserDao {
 
     public UserMealDao() {
-
     }
 
     public UserMeal create(Map<String, String> mapMealStr) {
-
         UserMeal um = new UserMeal
                 (LocalDateTime.parse(mapMealStr.get("date")), mapMealStr.get("description"), Integer.parseInt(mapMealStr.get("calories")));
-        um.setId(1);
-        mapUserMeal.put(1L, um);
+        um.setId(mapUserMeal.size() + 1);
+        mapUserMeal.put(um.getId(), um);
         return um;
     }
 
@@ -43,13 +41,12 @@ public class UserMealDao implements UserDao {
     }
 
     public UserMeal update(long id, String newDate, String newDescription, String newCalories) {
-
         UserMeal um = new UserMeal(Integer.parseInt(newCalories), LocalDateTime.parse(newDate), newDescription, id);
+        mapUserMeal.put(id, um);
         return um;
     }
 
     public UserMeal findById(Map<Long, UserMeal> mapMeal, long id) {
-
         return mapMeal.get(id);
     }
 }

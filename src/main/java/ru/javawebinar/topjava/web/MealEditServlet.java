@@ -23,6 +23,7 @@ import java.util.Map;
 public class MealEditServlet extends HttpServlet {
     private static final LoggerWrapper LOG = LoggerWrapper.get(UserServlet.class);
     UserDao umd;
+
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init();
@@ -40,20 +41,17 @@ public class MealEditServlet extends HttpServlet {
                 long id = Long.parseLong(request.getParameter("id"));
 
                 UserMeal um = umd.findById(umd.mapUserMeal, id);
-                List<UserMeal> userMeals = new ArrayList<>();
-                userMeals.add(um);
-                List<UserMealWithExceed> umEList = UserMealsUtil.getExceed(userMeals, 2000);
-                UserMealWithExceed ume = umEList.get(0);
-                request.setAttribute("uMeal", ume);
+                request.setAttribute("uMeal", um);
                 request.getRequestDispatcher("/mealEdit.jsp").forward(request, response);
             }
             if (request.getParameter("action").equals("delete")) {
                 long id = Long.parseLong(request.getParameter("id"));
 
                 umd.delete(umd.mapUserMeal, id);
-               /* request.setAttribute("uMeal", umd.getUme());
-                request.getRequestDispatcher("/mealEdit.jsp").forward(request, response);*/
-                response.sendRedirect("mealList.jsp");
+                List<UserMealWithExceed> list = UserMealsUtil.getUserMealWithExceeds();
+                request.setAttribute("list", list);
+                request.getRequestDispatcher("/mealList.jsp").forward(request, response);
+                //    response.sendRedirect("mealList.jsp");
 
 
             }
@@ -77,14 +75,7 @@ public class MealEditServlet extends HttpServlet {
             mapMeal.put("calories", mealCalStr);
 
             UserMeal um = umd.create(mapMeal);
-            List<UserMeal> userMeals = new ArrayList<>();
-            userMeals.add(um);
-            List<UserMealWithExceed> umEList = UserMealsUtil.getExceed(userMeals, 2000);
-            UserMealWithExceed ume = umEList.get(0);
-
-            List<UserMealWithExceed> list = new ArrayList<>();
-            list.add(ume);
-
+            List<UserMealWithExceed> list = UserMealsUtil.getUserMealWithExceeds();
             req.setAttribute("list", list);
             req.getRequestDispatcher("/mealList.jsp").forward(req, resp);
         } else {
