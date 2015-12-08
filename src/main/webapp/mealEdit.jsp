@@ -32,7 +32,7 @@
         </tr>
         <tr>
             <td><strong>Calories</strong></td>
-            <td><input type="text" name="calories" id="calories" value="${ume.calories}"></td>
+            <td><input type="number" name="calories" id="calories" value="${ume.calories}"></td>
         </tr>
         <tr>
             <td></td>
