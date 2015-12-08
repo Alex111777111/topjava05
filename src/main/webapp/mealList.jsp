@@ -65,23 +65,24 @@
             <td width="86"></td>
         </tr>
         <c:forEach items="${list}" var="meal">
-            <tr>
+            <c:set var="color" scope="session" value=""/>
+            <c:choose>
+                <c:when test="${meal.getExceed()}">
+                    <c:set var="color" scope="session" value="#E90234"/>
+                </c:when>
+                <c:when test="${!meal.getExceed()}">
+                    <c:set var="color" scope="session" value="#06B836"/>
+                </c:when>
+            </c:choose>
 
-                <c:set var="color" scope="session" value=""/>
-                <c:choose>
-                    <c:when test="${meal.getExceed()}">
-                        <c:set var="color" scope="session" value="#E90234"/>
-                    </c:when>
-                    <c:when test="${!meal.getExceed()}">
-                        <c:set var="color" scope="session" value="#06B836"/>
-                    </c:when>
-                </c:choose>
-
+            <tr style="color: ${color}">
+                    <%--   <fmt:parseDate value="${user.dateTime}" pattern="y-M-dd'T'H:m" var="parsedDateTime"/>
+                       <fmt:formatDate value="${parsedDateTime}" pattern="yyyy.MM.dd HH:mm"/>--%>
                 <c:url var="editUrl" value="/mealEdit?action=edit&id=${meal.id}"/>
                 <c:url var="deleteUrl" value="/mealEdit?action=delete&id=${meal.id}"/>
-                <td style="color: ${color}"><c:out value="${meal.dateTime}"/></td>
-                <td style="color: ${color}"><c:out value="${meal.description}"/></td>
-                <td style="color: ${color}"><c:out value="${meal.calories}"/></td>
+                <td><c:out value="${meal.dateTime}"/></td>
+                <td><c:out value="${meal.description}"/></td>
+                <td><c:out value="${meal.calories}"/></td>
                 <td><a href="${editUrl}">Edit</a></td>
                 <td><a href="${deleteUrl}">Delete</a></td>
             </tr>
