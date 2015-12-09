@@ -32,7 +32,7 @@ public class UserMealWithExceed {
     public String toString() {
         return "UserMealWithExceed{" +
                 "dateTime=" + dateTime +
-                ", description='" + description + '\'' +
+                ", description=" + description + '\'' +
                 ", calories=" + calories +
                 ", exceed=" + exceed +
                 '}';

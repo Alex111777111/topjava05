@@ -15,8 +15,6 @@ public interface UserMealDao {
 
     void delete(long id);
 
-    Map<Long, UserMeal> findByDate(Map<Long, UserMeal> mapMeal, LocalDate date);
-
     void update(UserMeal um);
 
     UserMeal findById(long id);

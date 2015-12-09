@@ -15,14 +15,16 @@ import java.util.stream.Collectors;
 public class UserMealDaoImpl implements UserMealDao {
     private static UserMealDaoImpl instance;
     public static Map<Long, UserMeal> mapUserMeal;
+    private static long count;
 
     public UserMealDaoImpl() {
     }
 
-    public static UserMealDao getInstance() {
+    public static synchronized UserMealDao getInstance() {
         if (instance == null) {
             instance = new UserMealDaoImpl();
             mapUserMeal = new HashMap<>();
+            count = 0;
         }
         return instance;
     }
@@ -30,7 +32,7 @@ public class UserMealDaoImpl implements UserMealDao {
 
     @Override
     public void create(UserMeal um) {
-        um.setId(mapUserMeal.size() + 1);
+        um.setId(++count);
         mapUserMeal.put(um.getId(), um);
     }
 
@@ -40,7 +42,7 @@ public class UserMealDaoImpl implements UserMealDao {
 
     }
 
-    @Override
+
     public Map<Long, UserMeal> findByDate(Map<Long, UserMeal> mapMeal, LocalDate date) {
         Map<Long, UserMeal> mapByDate =
                 mapMeal
