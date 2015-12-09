@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
 @Repository
 public class UserMealDaoImpl implements UserMealDao {
     private static final UserMealDao instance = new UserMealDaoImpl();
-    public static final Map<Long, UserMeal> mapUserMeal = new HashMap<>();
-    private static long count = 0;
+    public final Map<Long, UserMeal> mapUserMeal = new HashMap<>();
+    private long count = 0;
 
     public UserMealDaoImpl() {
     }
