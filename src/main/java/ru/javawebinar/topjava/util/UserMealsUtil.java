@@ -1,6 +1,7 @@
 package ru.javawebinar.topjava.util;
 
-import ru.javawebinar.topjava.dao.UserDao;
+import ru.javawebinar.topjava.dao.UserMealDao;
+import ru.javawebinar.topjava.dao.UserMealDaoImpl;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.model.UserMealWithExceed;
 
@@ -80,9 +81,8 @@ public class UserMealsUtil {
     }
 
     public static List<UserMealWithExceed> getUserMealWithExceeds() {
-        UserDao umd = UserDao.instance;
         List<UserMeal> userMeals = new ArrayList<>();
-        userMeals.addAll(umd.mapUserMeal.values());
+        userMeals.addAll(UserMealDaoImpl.mapUserMeal.values());
         return UserMealsUtil.getExceed(userMeals, 2000);
     }
 

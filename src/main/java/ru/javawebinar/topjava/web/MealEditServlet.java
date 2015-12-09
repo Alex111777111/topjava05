@@ -1,7 +1,8 @@
 package ru.javawebinar.topjava.web;
 
 import ru.javawebinar.topjava.LoggerWrapper;
-import ru.javawebinar.topjava.dao.UserDao;
+import ru.javawebinar.topjava.dao.UserMealDao;
+import ru.javawebinar.topjava.dao.UserMealDaoImpl;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.model.UserMealWithExceed;
 import ru.javawebinar.topjava.util.UserMealsUtil;
@@ -14,18 +15,21 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Maria on 05.12.2015.
  */
 public class MealEditServlet extends HttpServlet {
     private static final LoggerWrapper LOG = LoggerWrapper.get(UserServlet.class);
-    UserDao umd;
+    private UserMealDao umd;
+    private Map<Long, UserMeal> mapUserMeal;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init();
-        umd = UserDao.instance;
+        umd = UserMealDaoImpl.getInstance();
+        mapUserMeal = UserMealDaoImpl.mapUserMeal;
     }
 
     @Override
@@ -38,14 +42,14 @@ public class MealEditServlet extends HttpServlet {
             if (request.getParameter("action").equals("edit")) {
                 long id = Long.parseLong(request.getParameter("id"));
 
-                UserMeal um = umd.findById(umd.mapUserMeal, id);
+                UserMeal um = umd.findById(mapUserMeal, id);
                 request.setAttribute("uMeal", um);
                 request.getRequestDispatcher("/mealEdit.jsp").forward(request, response);
             }
             if (request.getParameter("action").equals("delete")) {
                 long id = Long.parseLong(request.getParameter("id"));
 
-                umd.delete(umd.mapUserMeal, id);
+                umd.delete(mapUserMeal, id);
                 List<UserMealWithExceed> list = UserMealsUtil.getUserMealWithExceeds();
                 request.setAttribute("list", list);
                 request.getRequestDispatcher("/mealList.jsp").forward(request, response);
