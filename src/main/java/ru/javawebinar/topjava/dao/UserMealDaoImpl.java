@@ -13,22 +13,20 @@ import java.util.stream.Collectors;
  */
 @Repository
 public class UserMealDaoImpl implements UserMealDao {
-    private static UserMealDaoImpl instance;
-    public static Map<Long, UserMeal> mapUserMeal;
-    private static long count;
+    private static final UserMealDao instance = new UserMealDaoImpl();
+    public static final Map<Long, UserMeal> mapUserMeal = new HashMap<>();
+    private static long count = 0;
 
     public UserMealDaoImpl() {
     }
 
     public static synchronized UserMealDao getInstance() {
-        if (instance == null) {
-            instance = new UserMealDaoImpl();
-            mapUserMeal = new HashMap<>();
-            count = 0;
-        }
         return instance;
     }
 
+    public Map<Long, UserMeal> getMapUserMeal() {
+        return mapUserMeal;
+    }
 
     @Override
     public void create(UserMeal um) {

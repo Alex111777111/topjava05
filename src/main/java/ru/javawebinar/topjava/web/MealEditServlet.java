@@ -21,7 +21,7 @@ import java.util.Map;
  * Created by Maria on 05.12.2015.
  */
 public class MealEditServlet extends HttpServlet {
-    private static final LoggerWrapper LOG = LoggerWrapper.get(UserServlet.class);
+    private static final LoggerWrapper LOG = LoggerWrapper.get(MealEditServlet.class);
     private UserMealDao umd;
 
     @Override

@@ -20,11 +20,6 @@ public class MealServlet extends HttpServlet {
 
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-    }
-
-    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOG.debug("redirect to mealList");
         List<UserMealWithExceed> list = UserMealsUtil.getUserMealWithExceeds();
