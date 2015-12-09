@@ -4,7 +4,9 @@ import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.UserMeal;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -61,5 +63,12 @@ public class UserMealDaoImpl implements UserMealDao {
     @Override
     public UserMeal findById(long id) {
         return mapUserMeal.get(id);
+    }
+
+    @Override
+    public List<UserMeal> getAll() {
+        List<UserMeal> list = new ArrayList<>();
+        list.addAll(mapUserMeal.values());
+        return list;
     }
 }

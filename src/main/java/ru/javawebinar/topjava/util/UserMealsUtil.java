@@ -81,9 +81,7 @@ public class UserMealsUtil {
     }
 
     public static List<UserMealWithExceed> getUserMealWithExceeds() {
-        List<UserMeal> userMeals = new ArrayList<>();
-        userMeals.addAll(UserMealDaoImpl.mapUserMeal.values());
-        return UserMealsUtil.getExceed(userMeals, 2000);
+        return UserMealsUtil.getExceed(UserMealDaoImpl.getInstance().getAll(), 2000);
     }
 
 }

@@ -2,6 +2,7 @@ package ru.javawebinar.topjava.dao;
 
 import ru.javawebinar.topjava.model.UserMeal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Map;
  */
 public interface UserMealDao {
 
-
+    List<UserMeal> getAll();
 
     void create(UserMeal um);
 
