@@ -13,13 +13,13 @@ public interface UserMealDao {
 
     void create(UserMeal um);
 
-    void delete(Map<Long, UserMeal> mapMeal, long id);
+    void delete(long id);
 
     Map<Long, UserMeal> findByDate(Map<Long, UserMeal> mapMeal, LocalDate date);
 
     void update(UserMeal um);
 
-    UserMeal findById(Map<Long, UserMeal> mapMeal, long id);
+    UserMeal findById(long id);
 
 
 }

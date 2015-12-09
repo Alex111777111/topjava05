@@ -35,9 +35,9 @@ public class UserMealDaoImpl implements UserMealDao {
     }
 
     @Override
-    public void delete(Map<Long, UserMeal> mapMeal, long id) {
+    public void delete(long id) {
         mapUserMeal.remove(id);
-        mapMeal.remove(id);
+
     }
 
     @Override
@@ -59,7 +59,7 @@ public class UserMealDaoImpl implements UserMealDao {
     }
 
     @Override
-    public UserMeal findById(Map<Long, UserMeal> mapMeal, long id) {
-        return mapMeal.get(id);
+    public UserMeal findById(long id) {
+        return mapUserMeal.get(id);
     }
 }

@@ -23,13 +23,12 @@ import java.util.Map;
 public class MealEditServlet extends HttpServlet {
     private static final LoggerWrapper LOG = LoggerWrapper.get(UserServlet.class);
     private UserMealDao umd;
-    private Map<Long, UserMeal> mapUserMeal;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init();
         umd = UserMealDaoImpl.getInstance();
-        mapUserMeal = UserMealDaoImpl.mapUserMeal;
+
     }
 
     @Override
@@ -42,14 +41,14 @@ public class MealEditServlet extends HttpServlet {
             if (request.getParameter("action").equals("edit")) {
                 long id = Long.parseLong(request.getParameter("id"));
 
-                UserMeal um = umd.findById(mapUserMeal, id);
+                UserMeal um = umd.findById(id);
                 request.setAttribute("uMeal", um);
                 request.getRequestDispatcher("/mealEdit.jsp").forward(request, response);
             }
             if (request.getParameter("action").equals("delete")) {
                 long id = Long.parseLong(request.getParameter("id"));
 
-                umd.delete(mapUserMeal, id);
+                umd.delete(id);
                 List<UserMealWithExceed> list = UserMealsUtil.getUserMealWithExceeds();
                 request.setAttribute("list", list);
                 request.getRequestDispatcher("/mealList.jsp").forward(request, response);
