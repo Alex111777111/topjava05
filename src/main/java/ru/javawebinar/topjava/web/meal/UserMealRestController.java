@@ -91,11 +91,4 @@ public class UserMealRestController {
         return UserMealsUtil.getFilteredWithExceeded(listDate, timeFrom, timeTo, UserMealsUtil.DEFAULT_CALORIES_PER_DAY);
     }
 
-    public UserMealWithExceed getUserMealWithExceed(UserMeal um) {
-        List<UserMeal> listUm = new ArrayList<>();
-        listUm.add(um);
-        List<UserMealWithExceed> list = UserMealsUtil.getWithExceeded(listUm, UserMealsUtil.DEFAULT_CALORIES_PER_DAY);
-        return list.size() > 0 ? list.get(0) : null;
-    }
-
 }
