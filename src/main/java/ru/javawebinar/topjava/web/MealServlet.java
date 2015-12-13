@@ -7,8 +7,6 @@ import ru.javawebinar.topjava.LoggerWrapper;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.repository.UserRepository;
 import ru.javawebinar.topjava.repository.mock.InMemoryUserRepositoryImpl;
-import ru.javawebinar.topjava.util.TimeUtil;
-import ru.javawebinar.topjava.util.UserMealsUtil;
 import ru.javawebinar.topjava.web.meal.UserMealRestController;
 
 import javax.servlet.ServletConfig;
@@ -17,10 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -49,8 +44,7 @@ public class MealServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         if (request.getParameter("userId") != null) {
             userId = LoggedUser.getId(request.getParameter("userId"));
-            request.setAttribute("mealList",
-                    UserMealsUtil.getWithExceeded(controller.getByUser(userId), UserMealsUtil.DEFAULT_CALORIES_PER_DAY));
+            request.setAttribute("mealList", controller.getListMeal(userId));
             request.getRequestDispatcher("/mealList.jsp").forward(request, response);
 
         } else if (request.getParameter("fromDate") != null || request.getParameter("toDate") != null || request.getParameter("fromTime") != null || request.getParameter("toTime") != null) {
@@ -59,22 +53,10 @@ public class MealServlet extends HttpServlet {
             String fromTime = request.getParameter("fromTime");
             String toTime = request.getParameter("toTime");
 
-
-            LocalDate dateFrom = fromDate != "" ? LocalDate.parse(fromDate, TimeUtil.DATE_FORMATTER) : LocalDate.MIN;
-            LocalDate dateTo = toDate != "" ? LocalDate.parse(toDate, TimeUtil.DATE_FORMATTER) : LocalDate.MAX;
-            LocalTime timeFrom = fromTime != "" ? LocalTime.parse(fromTime, TimeUtil.TME_FORMATTER) : LocalTime.MIN;
-            LocalTime timeTo = toTime != "" ? LocalTime.parse(toTime, TimeUtil.TME_FORMATTER) : LocalTime.MAX;
-
-
-            List<UserMeal> listDate = UserMealsUtil.getFilteredWithExceededByDate(controller.getByUser(userId), dateFrom, dateTo, UserMealsUtil.DEFAULT_CALORIES_PER_DAY);
-
-            request.setAttribute("mealList",
-                    UserMealsUtil.getFilteredWithExceeded(listDate, timeFrom, timeTo, UserMealsUtil.DEFAULT_CALORIES_PER_DAY));
+            request.setAttribute("mealList", controller.getFilter(fromDate, toDate, fromTime, toTime, userId));
             request.getRequestDispatcher("/mealList.jsp").forward(request, response);
 
-
         } else {
-
             String id = request.getParameter("id");
             UserMeal userMeal = new UserMeal(id.isEmpty() ? null : Integer.valueOf(id),
                     LocalDateTime.parse(request.getParameter("dateTime")),
@@ -83,7 +65,11 @@ public class MealServlet extends HttpServlet {
             userMeal.setUser(userRepository.get(userId));
 
             LOG.info(userMeal.isNew() ? "Create {}" : "Update {}", userMeal);
-            controller.create(userMeal);
+            if (userMeal.isNew()) {
+                controller.create(userMeal, userId);
+            } else {
+                controller.update(userMeal, userMeal.getId(), userId);
+            }
             response.sendRedirect("meals");
         }
     }
@@ -93,8 +79,7 @@ public class MealServlet extends HttpServlet {
         String action = request.getParameter("action");
         if (action == null) {
             LOG.info("getAll");
-            request.setAttribute("mealList",
-                    UserMealsUtil.getWithExceeded(controller.getByUser(userId), UserMealsUtil.DEFAULT_CALORIES_PER_DAY));
+            request.setAttribute("mealList", controller.getListMeal(userId));
             request.getRequestDispatcher("/mealList.jsp").forward(request, response);
         } else if (action.equals("delete")) {
             int id = getId(request);

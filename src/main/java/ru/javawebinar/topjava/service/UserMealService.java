@@ -11,13 +11,13 @@ import java.util.List;
  * 15.06.2015.
  */
 public interface UserMealService {
-    UserMeal save(UserMeal userMeal);
+    UserMeal save(UserMeal userMeal, int userId);
 
-    void delete(int id) throws NotFoundException;
+    void delete(int id, int userId) throws NotFoundException;
 
-    UserMeal get(int id) throws NotFoundException;
+    UserMeal get(int id, int userId) throws NotFoundException;
 
     List<UserMeal> getByUser(int userId);
 
-    void update(UserMeal userMeal);
+    void update(UserMeal userMeal, int userId);
 }

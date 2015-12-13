@@ -5,9 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import ru.javawebinar.topjava.LoggerWrapper;
 import ru.javawebinar.topjava.model.UserMeal;
+import ru.javawebinar.topjava.model.UserMealWithExceed;
 import ru.javawebinar.topjava.service.UserMealService;
-import ru.javawebinar.topjava.util.exception.NotFoundException;
+import ru.javawebinar.topjava.util.TimeUtil;
+import ru.javawebinar.topjava.util.UserMealsUtil;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -23,46 +27,47 @@ public class UserMealRestController {
 
 
     public UserMeal get(int id, int userId) {
-        if (service.get(id).getUser().getId() == userId) {
-            LOG.info("get " + id);
-            return service.get(id);
-        } else {
-            LOG.error("Trying to get userMeal, not belonging to this user");
-            throw new NotFoundException("Trying to get userMeal, not belonging to this user");
+        LOG.info("get " + id);
+        return service.get(id, userId);
 
-        }
     }
 
-    public UserMeal create(UserMeal usermeal) {
+    public UserMeal create(UserMeal usermeal, int userId) {
         usermeal.setId(null);
         LOG.info("create " + usermeal);
-        return service.save(usermeal);
+        return service.save(usermeal, userId);
     }
 
     public void delete(int id, int userId) {
-        if (service.get(id).getUser().getId() == userId) {
-            LOG.info("delete " + id);
-            service.delete(id);
-        } else {
-            LOG.error("Trying to delete userMeal, not belonging to this user");
-            throw new NotFoundException("Trying to delete userMeal, not belonging to this user");
-        }
+        LOG.info("delete " + id);
+        service.delete(id, userId);
+
     }
 
     public void update(UserMeal userMeal, int id, int userId) {
-        if (service.get(id).getUser().getId() == userId) {
-            userMeal.setId(id);
-            LOG.info("update " + userMeal);
-            service.update(userMeal);
-        } else {
-            LOG.error("Trying to update userMeal, not belonging to this user");
-            throw new NotFoundException("Trying to update userMeal, not belonging to this user");
-        }
+        userMeal.setId(id);
+        LOG.info("update " + userMeal);
+        service.update(userMeal, userId);
+
     }
 
     public List<UserMeal> getByUser(int id) {
         LOG.info("get by user id = " + id);
         return service.getByUser(id);
+    }
+
+    public List<UserMealWithExceed> getListMeal(int userId) {
+        return UserMealsUtil.getWithExceeded(service.getByUser(userId), UserMealsUtil.DEFAULT_CALORIES_PER_DAY);
+    }
+
+    public List<UserMealWithExceed> getFilter(String fromDate, String toDate, String fromTime, String toTime, int userId) {
+        LocalDate dateFrom = fromDate != "" ? LocalDate.parse(fromDate, TimeUtil.DATE_FORMATTER) : LocalDate.MIN;
+        LocalDate dateTo = toDate != "" ? LocalDate.parse(toDate, TimeUtil.DATE_FORMATTER) : LocalDate.MAX;
+        LocalTime timeFrom = fromTime != "" ? LocalTime.parse(fromTime, TimeUtil.TME_FORMATTER) : LocalTime.MIN;
+        LocalTime timeTo = toTime != "" ? LocalTime.parse(toTime, TimeUtil.TME_FORMATTER) : LocalTime.MAX;
+
+        List<UserMeal> listDate = UserMealsUtil.getFilteredWithExceededByDate(service.getByUser(userId), dateFrom, dateTo, UserMealsUtil.DEFAULT_CALORIES_PER_DAY);
+        return UserMealsUtil.getFilteredWithExceeded(listDate, timeFrom, timeTo, UserMealsUtil.DEFAULT_CALORIES_PER_DAY);
     }
 
 }
