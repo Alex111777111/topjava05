@@ -5,7 +5,7 @@ import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.repository.UserMealRepository;
 import ru.javawebinar.topjava.util.UserMealsUtil;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -45,12 +45,14 @@ public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
     }
 
     @Override
-    public Collection<UserMeal> getAll() {
-        return repository.values();
+    public List<UserMeal> getAll() {
+        List<UserMeal> list = new ArrayList<>();
+        list.addAll(repository.values());
+        return list;
     }
 
     @Override
-    public Collection<UserMeal> getMealByUser(int userId) {
+    public List<UserMeal> getMealByUser(int userId) {
         List<UserMeal> listByUser =
                 repository
                         .values()

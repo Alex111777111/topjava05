@@ -36,23 +36,22 @@ import java.util.Objects;
 public class MealServlet extends HttpServlet {
     private static final LoggerWrapper LOG = LoggerWrapper.get(MealServlet.class);
 
-    private UserMealRepository repository;
+    //   private UserMealRepository repository;
     int userId;
-    private UserMealRestController userMealRestController;
+    private UserMealRestController controller;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        repository = new InMemoryUserMealRepositoryImpl();
+        //    repository = new InMemoryUserMealRepositoryImpl();
         userId = 1;
-        ServletContext servletContext = getServletContext();
+        // ServletContext servletContext = getServletContext();
        /* ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(servletContext);
         MyBean myBean = (MyBean)ctx.getBean("myBean");*/
+        try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml")) {
+            controller = appCtx.getBean(UserMealRestController.class);
+        }
 
-    }
-
-    public void setUserMealRestController(UserMealRestController userMealRestController) {
-        this.userMealRestController = userMealRestController;
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws javax.servlet.ServletException, IOException {
@@ -62,7 +61,7 @@ public class MealServlet extends HttpServlet {
             // response.sendRedirect("mealList.jsp");
             //  request.setAttribute("userId");
             request.setAttribute("mealList",
-                    UserMealsUtil.getWithExceeded(repository.getMealByUser(userId), UserMealsUtil.DEFAULT_CALORIES_PER_DAY));
+                    UserMealsUtil.getWithExceeded(controller.getByUser(userId), UserMealsUtil.DEFAULT_CALORIES_PER_DAY));
             request.getRequestDispatcher("/mealList.jsp").forward(request, response);
 
         } else if (request.getParameter("fromDate") != null || request.getParameter("toDate") != null || request.getParameter("fromTime") != null || request.getParameter("toTime") != null) {
@@ -78,7 +77,7 @@ public class MealServlet extends HttpServlet {
             LocalTime timeTo = toTime != "" ? LocalTime.parse(toTime, TimeUtil.TME_FORMATTER) : LocalTime.MAX;
 
 
-            List<UserMeal> listDate = UserMealsUtil.getFilteredWithExceededByDate(repository.getMealByUser(userId), dateFrom, dateTo, UserMealsUtil.DEFAULT_CALORIES_PER_DAY);
+            List<UserMeal> listDate = UserMealsUtil.getFilteredWithExceededByDate(controller.getByUser(userId), dateFrom, dateTo, UserMealsUtil.DEFAULT_CALORIES_PER_DAY);
 
             request.setAttribute("mealList",
                     UserMealsUtil.getFilteredWithExceeded(listDate, timeFrom, timeTo, UserMealsUtil.DEFAULT_CALORIES_PER_DAY));
@@ -92,7 +91,7 @@ public class MealServlet extends HttpServlet {
                     request.getParameter("description"),
                     Integer.valueOf(request.getParameter("calories")));
             LOG.info(userMeal.isNew() ? "Create {}" : "Update {}", userMeal);
-            repository.save(userMeal);
+            controller.create(userMeal);
             response.sendRedirect("meals");
         }
     }
@@ -105,17 +104,17 @@ public class MealServlet extends HttpServlet {
         if (action == null) {
             LOG.info("getAll");
             request.setAttribute("mealList",
-                    UserMealsUtil.getWithExceeded(repository.getAll(), UserMealsUtil.DEFAULT_CALORIES_PER_DAY));
+                    UserMealsUtil.getWithExceeded(controller.getByUser(userId), UserMealsUtil.DEFAULT_CALORIES_PER_DAY));
             request.getRequestDispatcher("/mealList.jsp").forward(request, response);
         } else if (action.equals("delete")) {
             int id = getId(request);
             LOG.info("Delete {}", id);
-            repository.delete(id);
+            controller.delete(id, userId);
             response.sendRedirect("meals");
         } else {
             final UserMeal meal = action.equals("create") ?
                     new UserMeal(LocalDateTime.now(), "", 1000) :
-                    repository.get(getId(request));
+                    controller.get(getId(request), userId);
             request.setAttribute("meal", meal);
             request.getRequestDispatcher("mealEdit.jsp").forward(request, response);
         }
