@@ -21,10 +21,6 @@ public class UserMealRestController {
     @Autowired
     private UserMealService service;
 
-    public List<UserMeal> getAll() {
-        LOG.info("getAll");
-        return service.getAll();
-    }
 
     public UserMeal get(int id, int userId) {
         if (service.get(id).getUser().getId() == userId) {
@@ -32,8 +28,8 @@ public class UserMealRestController {
             return service.get(id);
         } else {
             LOG.error("Trying to get userMeal, not belonging to this user");
-            new NotFoundException("Trying to get userMeal, not belonging to this user");
-            return null;
+            throw new NotFoundException("Trying to get userMeal, not belonging to this user");
+
         }
     }
 
@@ -49,7 +45,7 @@ public class UserMealRestController {
             service.delete(id);
         } else {
             LOG.error("Trying to delete userMeal, not belonging to this user");
-            new NotFoundException("Trying to delete userMeal, not belonging to this user");
+            throw new NotFoundException("Trying to delete userMeal, not belonging to this user");
         }
     }
 
@@ -60,7 +56,7 @@ public class UserMealRestController {
             service.update(userMeal);
         } else {
             LOG.error("Trying to update userMeal, not belonging to this user");
-            new NotFoundException("Trying to update userMeal, not belonging to this user");
+            throw new NotFoundException("Trying to update userMeal, not belonging to this user");
         }
     }
 

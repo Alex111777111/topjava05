@@ -36,10 +36,6 @@ public class UserMealServiceImpl implements UserMealService {
         return ExceptionUtil.check(repository.save(repository.get(id)), id);
     }
 
-    @Override
-    public List<UserMeal> getAll() {
-        return repository.getAll();
-    }
 
     @Override
     public List<UserMeal> getByUser(int userId) {

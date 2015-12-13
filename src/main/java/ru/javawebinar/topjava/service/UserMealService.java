@@ -17,8 +17,6 @@ public interface UserMealService {
 
     UserMeal get(int id) throws NotFoundException;
 
-    List<UserMeal> getAll();
-
     List<UserMeal> getByUser(int userId);
 
     void update(UserMeal userMeal);

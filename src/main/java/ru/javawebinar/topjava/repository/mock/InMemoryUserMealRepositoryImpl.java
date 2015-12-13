@@ -35,8 +35,8 @@ public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
 
     @Override
     public boolean delete(int id) {
-        repository.remove(id);
-        return true;
+        return repository.remove(id) != null;
+
     }
 
     @Override
@@ -44,12 +44,6 @@ public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
         return repository.get(id);
     }
 
-    @Override
-    public List<UserMeal> getAll() {
-        List<UserMeal> list = new ArrayList<>();
-        list.addAll(repository.values());
-        return list;
-    }
 
     @Override
     public List<UserMeal> getMealByUser(int userId) {
