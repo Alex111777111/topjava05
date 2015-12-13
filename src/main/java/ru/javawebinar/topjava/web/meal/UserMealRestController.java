@@ -3,15 +3,18 @@ package ru.javawebinar.topjava.web.meal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import ru.javawebinar.topjava.LoggedUser;
 import ru.javawebinar.topjava.LoggerWrapper;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.model.UserMealWithExceed;
 import ru.javawebinar.topjava.service.UserMealService;
 import ru.javawebinar.topjava.util.TimeUtil;
 import ru.javawebinar.topjava.util.UserMealsUtil;
+import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,16 +29,34 @@ public class UserMealRestController {
     private UserMealService service;
 
 
-    public UserMeal get(int id, int userId) {
-        LOG.info("get " + id);
-        return service.get(id, userId);
+    public List<UserMealWithExceed> get() {
+        return getListMeal(LoggedUser.id());
+    }
+
+    public List<UserMealWithExceed> getByFilter(String fromDate, String toDate, String fromTime, String toTime) {
+        return getFilter(fromDate, toDate, fromTime, toTime, LoggedUser.id());
+    }
+
+    public UserMeal get(int id) {
+        if (service.get(id, LoggedUser.id()).getId() == LoggedUser.id()) {
+            if (service.get(id, LoggedUser.id()) != null) {
+                return service.get(id, LoggedUser.id());
+            } else {
+                LOG.error("Trying to get userMeal, not belonging to this user");
+                throw new NotFoundException("Trying to get userMeal, not belonging to this user");
+            }
+
+        } else {
+            LOG.error("Trying to get userMeal, not belonging to this user");
+            throw new NotFoundException("Trying to get userMeal, not belonging to this user");
+        }
 
     }
 
-    public UserMeal create(UserMeal usermeal, int userId) {
+    public UserMeal create(UserMeal usermeal) {
         usermeal.setId(null);
         LOG.info("create " + usermeal);
-        return service.save(usermeal, userId);
+        return service.save(usermeal, LoggedUser.id());
     }
 
     public void delete(int id, int userId) {
@@ -44,10 +65,10 @@ public class UserMealRestController {
 
     }
 
-    public void update(UserMeal userMeal, int id, int userId) {
+    public void update(UserMeal userMeal, int id) {
         userMeal.setId(id);
         LOG.info("update " + userMeal);
-        service.update(userMeal, userId);
+        service.update(userMeal, LoggedUser.id());
 
     }
 
@@ -68,6 +89,13 @@ public class UserMealRestController {
 
         List<UserMeal> listDate = UserMealsUtil.getFilteredWithExceededByDate(service.getByUser(userId), dateFrom, dateTo, UserMealsUtil.DEFAULT_CALORIES_PER_DAY);
         return UserMealsUtil.getFilteredWithExceeded(listDate, timeFrom, timeTo, UserMealsUtil.DEFAULT_CALORIES_PER_DAY);
+    }
+
+    public UserMealWithExceed getUserMealWithExceed(UserMeal um) {
+        List<UserMeal> listUm = new ArrayList<>();
+        listUm.add(um);
+        List<UserMealWithExceed> list = UserMealsUtil.getWithExceeded(listUm, UserMealsUtil.DEFAULT_CALORIES_PER_DAY);
+        return list.size() > 0 ? list.get(0) : null;
     }
 
 }

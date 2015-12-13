@@ -44,7 +44,7 @@ public class MealServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         if (request.getParameter("userId") != null) {
             userId = LoggedUser.getId(request.getParameter("userId"));
-            request.setAttribute("mealList", controller.getListMeal(userId));
+            request.setAttribute("mealList", controller.get());
             request.getRequestDispatcher("/mealList.jsp").forward(request, response);
 
         } else if (request.getParameter("fromDate") != null || request.getParameter("toDate") != null || request.getParameter("fromTime") != null || request.getParameter("toTime") != null) {
@@ -53,7 +53,7 @@ public class MealServlet extends HttpServlet {
             String fromTime = request.getParameter("fromTime");
             String toTime = request.getParameter("toTime");
 
-            request.setAttribute("mealList", controller.getFilter(fromDate, toDate, fromTime, toTime, userId));
+            request.setAttribute("mealList", controller.getByFilter(fromDate, toDate, fromTime, toTime));
             request.getRequestDispatcher("/mealList.jsp").forward(request, response);
 
         } else {
@@ -66,9 +66,9 @@ public class MealServlet extends HttpServlet {
 
             LOG.info(userMeal.isNew() ? "Create {}" : "Update {}", userMeal);
             if (userMeal.isNew()) {
-                controller.create(userMeal, userId);
+                controller.create(userMeal);
             } else {
-                controller.update(userMeal, userMeal.getId(), userId);
+                controller.update(userMeal, userMeal.getId());
             }
             response.sendRedirect("meals");
         }
@@ -89,7 +89,7 @@ public class MealServlet extends HttpServlet {
         } else {
             final UserMeal meal = action.equals("create") ?
                     new UserMeal(LocalDateTime.now(), "", 1000, userRepository.get(userId)) :
-                    controller.get(getId(request), userId);
+                    controller.get(getId(request));
             request.setAttribute("meal", meal);
             request.getRequestDispatcher("mealEdit.jsp").forward(request, response);
         }
