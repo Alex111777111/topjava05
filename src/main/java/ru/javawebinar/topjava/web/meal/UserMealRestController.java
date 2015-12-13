@@ -27,7 +27,7 @@ public class UserMealRestController {
     }
 
     public UserMeal get(int id, int userId) {
-        if (service.get(id).getId() == userId) {
+        if (service.get(id).getUser().getId() == userId) {
             LOG.info("get " + id);
             return service.get(id);
         } else {
@@ -44,7 +44,7 @@ public class UserMealRestController {
     }
 
     public void delete(int id, int userId) {
-        if (service.get(id).getId() == userId) {
+        if (service.get(id).getUser().getId() == userId) {
             LOG.info("delete " + id);
             service.delete(id);
         } else {
@@ -54,7 +54,7 @@ public class UserMealRestController {
     }
 
     public void update(UserMeal userMeal, int id, int userId) {
-        if (service.get(id).getId() == userId) {
+        if (service.get(id).getUser().getId() == userId) {
             userMeal.setId(id);
             LOG.info("update " + userMeal);
             service.update(userMeal);

@@ -82,7 +82,7 @@ public class UserMeal extends BaseEntity {
     public String toString() {
         return "UserMeal{" +
                 "id= " + id +
-                //      " user id = " + user.getName() +
+                " user id = " + user.getName() +
                 ", dateTime=" + dateTime +
                 ", description='" + description + '\'' +
                 ", calories=" + calories +
