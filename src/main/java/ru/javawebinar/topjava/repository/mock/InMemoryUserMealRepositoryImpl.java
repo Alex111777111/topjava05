@@ -1,18 +1,22 @@
 package ru.javawebinar.topjava.repository.mock;
 
+import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.repository.UserMealRepository;
 import ru.javawebinar.topjava.util.UserMealsUtil;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 /**
  * GKislin
  * 15.09.2015.
  */
+@Repository
 public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
     private Map<Integer, UserMeal> repository = new ConcurrentHashMap<>();
     private AtomicInteger counter = new AtomicInteger(0);
@@ -30,8 +34,9 @@ public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
     }
 
     @Override
-    public void delete(int id) {
+    public boolean delete(int id) {
         repository.remove(id);
+        return true;
     }
 
     @Override
@@ -42,6 +47,19 @@ public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
     @Override
     public Collection<UserMeal> getAll() {
         return repository.values();
+    }
+
+    @Override
+    public Collection<UserMeal> getMealByUser(int userId) {
+        List<UserMeal> listByUser =
+                repository
+                        .values()
+                        .stream()
+                        .filter(entry -> entry.getUser().getId() == userId)
+                        .sorted((o1, o2) -> o1.getDateTime().compareTo(o2.getDateTime()))
+                        .collect(Collectors.toList());
+
+        return listByUser;
     }
 }
 

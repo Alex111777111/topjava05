@@ -15,4 +15,8 @@ public class LoggedUser {
     public static int getCaloriesPerDay() {
         return UserMealsUtil.DEFAULT_CALORIES_PER_DAY;
     }
+
+    public static int getId(String name) {
+        return name.equals("2") ? 2 : 1;
+    }
 }
