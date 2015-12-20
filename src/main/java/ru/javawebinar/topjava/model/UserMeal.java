@@ -1,7 +1,9 @@
 package ru.javawebinar.topjava.model;
 
 import org.springframework.stereotype.Component;
+import ru.javawebinar.topjava.util.TimeUtil;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 /**
@@ -12,14 +14,17 @@ import java.time.LocalDateTime;
 public class UserMeal {
     protected Integer id;
 
-    protected final LocalDateTime dateTime;
+    protected LocalDateTime dateTime;
 
-    protected final String description;
+    protected String description;
 
-    protected final int calories;
+    protected int calories;
 
     public UserMeal(LocalDateTime dateTime, String description, int calories) {
         this(null, dateTime, description, calories);
+    }
+
+    public UserMeal() {
     }
 
     public UserMeal(Integer id, LocalDateTime dateTime, String description, int calories) {
@@ -37,9 +42,14 @@ public class UserMeal {
         this.id = id;
     }
 
-    public LocalDateTime getDateTime() {
+    public LocalDateTime getDateTimeLocal() {
         return dateTime;
     }
+
+    public Timestamp getDateTime() {
+        return TimeUtil.getTimestamp(dateTime);
+    }
+
 
     public String getDescription() {
         return description;
@@ -61,6 +71,29 @@ public class UserMeal {
                 ", description='" + description + '\'' +
                 ", calories=" + calories +
                 '}';
+    }
+
+    public void setCalories(int calories) {
+        this.calories = calories;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public void setDateTime(Timestamp dateTime) {
+        this.dateTime = dateTime.toLocalDateTime();
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public UserMeal(Integer id, Timestamp dateTime, String description, int calories) {
+        this.id = id;
+        this.dateTime = dateTime.toLocalDateTime();
+        this.calories = calories;
+        this.description = description;
     }
 
 }

@@ -23,7 +23,7 @@ import static ru.javawebinar.topjava.web.UserTestData.USER_ID;
 @Repository
 public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
 
-    public static final Comparator<UserMeal> USER_MEAL_COMPARATOR = (um1, um2) -> um2.getDateTime().compareTo(um1.getDateTime());
+    public static final Comparator<UserMeal> USER_MEAL_COMPARATOR = (um1, um2) -> um2.getDateTimeLocal().compareTo(um1.getDateTimeLocal());
 
     // Map  userId -> (mealId-> meal)
     private Map<Integer, Map<Integer, UserMeal>> repository = new ConcurrentHashMap<>();
@@ -79,7 +79,7 @@ public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
         Objects.requireNonNull(startDateTime);
         Objects.requireNonNull(endDateTime);
         return getAll(userId).stream()
-                .filter(um -> TimeUtil.isBetween(um.getDateTime(), startDateTime, endDateTime))
+                .filter(um -> TimeUtil.isBetween(um.getDateTimeLocal(), startDateTime, endDateTime))
                 .collect(Collectors.toList());
     }
 }

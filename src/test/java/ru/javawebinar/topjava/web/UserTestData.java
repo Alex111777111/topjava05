@@ -11,12 +11,6 @@ import java.util.Set;
 
 import static ru.javawebinar.topjava.model.BaseEntity.START_SEQ;
 
-import java.util.EnumSet;
-import java.util.Objects;
-import java.util.Set;
-
-import static ru.javawebinar.topjava.model.BaseEntity.START_SEQ;
-
 /**
  * GKislin
  * 24.09.2015.

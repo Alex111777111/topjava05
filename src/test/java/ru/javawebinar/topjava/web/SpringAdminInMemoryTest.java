@@ -16,7 +16,6 @@ import ru.javawebinar.topjava.web.user.AdminRestController;
 import java.util.Collection;
 
 import static ru.javawebinar.topjava.web.UserTestData.ADMIN;
-import static ru.javawebinar.topjava.web.UserTestData.USER;
 
 /**
  * GKislin
@@ -40,7 +39,6 @@ public class SpringAdminInMemoryTest {
 
     @Before
     public void setUp() throws Exception {
-        //  repository.getAll().forEach(u -> repository.delete(u.getId()));
         dbPopulator.execute();
     }
 

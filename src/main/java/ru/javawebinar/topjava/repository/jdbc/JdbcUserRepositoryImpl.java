@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
+import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -40,7 +41,7 @@ public class JdbcUserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User save(User user) {
+    public User save(User user) throws NotFoundException {
         MapSqlParameterSource map = new MapSqlParameterSource()
                 .addValue("id", user.getId())
                 .addValue("name", user.getName())
@@ -54,9 +55,13 @@ public class JdbcUserRepositoryImpl implements UserRepository {
             Number newKey = insertUser.executeAndReturnKey(map);
             user.setId(newKey.intValue());
         } else {
-            namedParameterJdbcTemplate.update(
-                    "UPDATE users SET name=:name, email=:email, password=:password, " +
-                            "registered=:registered, enabled=:enabled, calories_per_day=:caloriesPerDay WHERE id=:id", map);
+            if (get(user.getId()) != null) {
+                namedParameterJdbcTemplate.update(
+                        "UPDATE users SET name=:name, email=:email, password=:password, " +
+                                "registered=:registered, enabled=:enabled, calories_per_day=:caloriesPerDay WHERE id=:id", map);
+            } else {
+                throw new NotFoundException("This id don't exist");
+            }
         }
         return user;
     }
