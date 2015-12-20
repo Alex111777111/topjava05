@@ -43,22 +43,18 @@ public class SpringMain {
 
     @Test
     public void test() {
-        // java 7 Automatic resource management
-       /* try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml")) {
-            System.out.println(Arrays.toString(appCtx.getBeanDefinitionNames()));*/
-        //  appCtx.getBean(AdminRestController.class);
+
         dbPopulator.execute();
             System.out.println(adminUserController.create(new User(1, "userName", "email", "password", Role.ROLE_ADMIN)));
             System.out.println();
 
-        //  UserMealRestController mealController = appCtx.getBean(UserMealRestController.class);
-           /* List<UserMealWithExceed> filteredMealsWithExceeded =
+         /*   List<UserMealWithExceed> filteredMealsWithExceeded =
                     mealController.getBetween(
                             LocalDate.of(2015, Month.MAY, 30), LocalTime.of(7, 0),
                             LocalDate.of(2015, Month.MAY, 31), LocalTime.of(11, 0));
             filteredMealsWithExceeded.forEach(System.out::println);*/
-        List<UserMealWithExceed> list = mealController.getAll();
-        list.forEach(System.out::println);
+       /* List<UserMealWithExceed> list = mealController.getAll();
+        list.forEach(System.out::println);*/
         }
     }
 

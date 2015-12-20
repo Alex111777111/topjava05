@@ -1,11 +1,14 @@
 package ru.javawebinar.topjava.model;
 
+import org.springframework.stereotype.Component;
+
 import java.time.LocalDateTime;
 
 /**
  * GKislin
  * 11.01.2015.
  */
+
 public class UserMeal {
     protected Integer id;
 
@@ -22,11 +25,15 @@ public class UserMeal {
     public UserMeal(Integer id, LocalDateTime dateTime, String description, int calories) {
         this.id = id;
         this.dateTime = dateTime;
-        this.description = description;
         this.calories = calories;
+        this.description = description;
     }
 
-    public void setId(int id) {
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -42,10 +49,6 @@ public class UserMeal {
         return calories;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
     public boolean isNew() {
         return id == null;
     }
@@ -59,4 +62,5 @@ public class UserMeal {
                 ", calories=" + calories +
                 '}';
     }
+
 }

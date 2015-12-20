@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import ru.javawebinar.topjava.web.UserTestData;
 import ru.javawebinar.topjava.web.UserTestData.*;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
@@ -93,4 +94,22 @@ public class UserServiceTest {
         service.update(updated.asUser());
         MATCHER.assertEquals(updated, service.get(USER_ID));
     }
+
+    @Test(expected = NotFoundException.class)
+    public void testAnotherUserDelete() throws Exception {
+        int id = 102;
+        service.delete(id);
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void testAnotherUserGet() throws Exception {
+        int id = 102;
+        service.get(id);
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void testAnotherUserUpdate() throws Exception {
+        service.update(new User(100365, "another", "another", "another", Role.ROLE_ADMIN));
+    }
+
 }

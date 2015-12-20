@@ -33,12 +33,17 @@ public class JdbcUserMealRepositoryImpl implements UserMealRepository {
 
     private SimpleJdbcInsert insertMeal;
 
-
+    @Autowired
+    public JdbcUserMealRepositoryImpl(DataSource dataSource) {
+        this.insertMeal = new SimpleJdbcInsert(dataSource)
+                .withTableName("MEALS")
+                .usingGeneratedKeyColumns("id");
+    }
     @Override
     public UserMeal save(UserMeal userMeal, int userId) {
         MapSqlParameterSource map = new MapSqlParameterSource()
                 .addValue("id", userMeal.getId())
-                .addValue("date", userMeal.getDateTime())
+                .addValue("date_time", TimeUtil.getTimestamp(userMeal.getDateTime()))
                 .addValue("description", userMeal.getDescription())
                 .addValue("calories", userMeal.getCalories())
                 .addValue("user_id", userId);
@@ -49,19 +54,14 @@ public class JdbcUserMealRepositoryImpl implements UserMealRepository {
             userMeal.setId(newKey.intValue());
         } else {
             namedParameterJdbcTemplate.update(
-                    "UPDATE meals SET date=:date, description=:description, calories=:calories, " +
+                    "UPDATE meals SET date_time=:date_time, description=:description, calories=:calories, " +
                             "user_id=:user_id WHERE id=:id", map);
         }
         return userMeal;
     }
 
 
-    @Autowired
-    public JdbcUserMealRepositoryImpl(DataSource dataSource) {
-        this.insertMeal = new SimpleJdbcInsert(dataSource)
-                .withTableName("MEALS")
-                .usingGeneratedKeyColumns("id");
-    }
+
 
     @Override
     public boolean delete(int id, int userId) {
@@ -76,15 +76,14 @@ public class JdbcUserMealRepositoryImpl implements UserMealRepository {
 
     @Override
     public List<UserMeal> getAll(int userId) {
-        return jdbcTemplate.query("SELECT * FROM meals", ROW_MAPPER, userId);
-        //  SELECT * FROM meals ORDER BY date DESC
+        return jdbcTemplate.query("SELECT * FROM meals WHERE user_id=?  ORDER BY date_time DESC", ROW_MAPPER, userId);
+
     }
 
     @Override
     public List<UserMeal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
         Object[] args = new Object[]{userId, TimeUtil.getTimestamp(startDate), TimeUtil.getTimestamp(endDate)};
-
-        return jdbcTemplate.query("SELECT * FROM meals WHERE user_id = ? AND (date BETWEEN ? AND ?)", args, ROW_MAPPER);
+        return jdbcTemplate.query("SELECT * FROM meals WHERE user_id = ? AND date_time BETWEEN ? AND ?  ORDER BY date_time DESC", args, ROW_MAPPER);
     }
 
 
