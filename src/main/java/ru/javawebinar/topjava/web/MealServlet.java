@@ -68,7 +68,7 @@ public class MealServlet extends HttpServlet {
         }
     }
 
-    private String resetParam(String param, HttpServletRequest request) {
+   /* private String resetParam(String param, HttpServletRequest request) {
         String value = request.getParameter(param);
         request.setAttribute(param, value);
         return value;
@@ -97,8 +97,8 @@ public class MealServlet extends HttpServlet {
         request.setAttribute("mealList", mealController.getBetween(startDate, startTime, endDate, endTime));
         request.getRequestDispatcher("/mealList.jsp").forward(request, response);
     }
-}
-
+}*/
+/*
     private String resetParam(String param, HttpServletRequest request) {
         String value = request.getParameter(param);
         request.setAttribute(param, value);
@@ -124,8 +124,8 @@ public class MealServlet extends HttpServlet {
         request.setAttribute("mealList",mealController.getBetween(startDate,startTime,endDate,endTime));
         request.getRequestDispatcher("/mealList.jsp").forward(request,response);
         }
-        }
-
+        }*/
+/*
 private String resetParam(String param,HttpServletRequest request){
         String value=request.getParameter(param);
         request.setAttribute(param,value);
@@ -152,8 +152,9 @@ private String resetParam(String param,HttpServletRequest request){
         request.getRequestDispatcher("/mealList.jsp").forward(request,response);
         }
         }
+*/
 
-private String resetParam(String param,HttpServletRequest request){
+/*private String resetParam(String param,HttpServletRequest request){
         String value=request.getParameter(param);
         request.setAttribute(param,value);
         return value;
@@ -178,30 +179,30 @@ private String resetParam(String param,HttpServletRequest request){
         request.setAttribute("mealList",mealController.getBetween(startDate,startTime,endDate,endTime));
         request.getRequestDispatcher("/mealList.jsp").forward(request,response);
         }
-        }
+        }*/
 
-private String resetParam(String param,HttpServletRequest request){
-        String value=request.getParameter(param);
-        request.setAttribute(param,value);
+    private String resetParam(String param, HttpServletRequest request) {
+        String value = request.getParameter(param);
+        request.setAttribute(param, value);
         return value;
-        }
+    }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
 
         if (action == null) {
             LOG.info("getAll");
-        request.setAttribute("mealList",mealController.getAll());
+            request.setAttribute("mealList", mealController.getAll());
             request.getRequestDispatcher("/mealList.jsp").forward(request, response);
         } else if (action.equals("delete")) {
             int id = getId(request);
             LOG.info("Delete {}", id);
-        mealController.delete(id);
+            mealController.delete(id);
             response.sendRedirect("meals");
         } else {
             final UserMeal meal = action.equals("create") ?
                     new UserMeal(LocalDateTime.now(), "", 1000) :
-        mealController.get(getId(request));
+                    mealController.get(getId(request));
             request.setAttribute("meal", meal);
             request.getRequestDispatcher("mealEdit.jsp").forward(request, response);
         }
