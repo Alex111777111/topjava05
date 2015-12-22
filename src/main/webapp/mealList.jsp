@@ -5,7 +5,7 @@
 <html>
 <head>
     <title>Meal list</title>
-    <link rel="stylesheet" href="css/style.css">
+    <style>
         .normal {
             color: green;
         }
@@ -19,164 +19,66 @@
 <section>
     <h2><a href="index.html">Home</a></h2>
     <h3>Meal list</h3>
-                   < form method
+    <c:set var="userId" value="${userId}"/>
 
-=
-"post"
-action
+    <div>
 
-=
-"meals?action=filter"
->
-<
-dl >
-< dt > From Date:<
 
-/
-dt >
-< dd > < input type
+        <form id="filter" name="filter" action="meals"
+              method="post">
+            <p>
+                <label for="fromDate">From Date:</label>
+                <input type="text" name="fromDate" id="fromDate">
+                <label for="toDate">To Date:</label>
+                <input type="text" name="toDate" id="toDate">
+                <%--   <input type="hidden" name="userId" id="idUser" value="${userId}">--%>
 
-=
-"date"
-name
+            </p>
 
-=
-"startDate"
-value
+            <p>
+                <label for="fromTime">From Time:</label>
+                <input type="text" name="fromTime" id="fromTime">
+                <label for="toTime">To Time:</label>
+                <input type="text" name="toTime" id="toTime">
+            </p>
 
-=
-"
-${startDate}
-"
->
-<
-/
-dd >
-<
+            <p>
+                <input class="button" type="submit" value="Filter">
+            </p>
+        </form>
+    </div>
+    <div>
 
-/
-dl >
-< dl >
-< dt > To Date:<
+        <p>
 
-/
-dt >
-< dd > < input type
-
-=
-"date"
-name
-
-=
-"endDate"
-value
-
-=
-"
-${endDate}
-"
->
-<
-/
-dd >
-<
-
-/
-dl >
-< dl >
-< dt > From Time:<
-
-/
-dt >
-< dd > < input type
-
-=
-"time"
-name
-
-=
-"startTime"
-value
-
-=
-"
-${startTime}
-"
->
-<
-/
-dd >
-<
-
-/
-dl >
-< dl >
-< dt > To Time:<
-
-/
-dt >
-< dd > < input type
-
-=
-"time"
-name
-
-=
-"endTime"
-value
-
-=
-"
-${endTime}
-"
->
-<
-/
-dd >
-<
-
-/
-dl >
-< button type
-
-=
-"submit"
->
-Filter<
-
-/
-button >
-<
-
-/
-form >
-< hr >
-    <a href="meals?action=create">Add Meal</a>
-    <hr>
-    <table border="1" cellpadding="8" cellspacing="0">
-        <thead>
-        <tr>
-            <th>Date</th>
-            <th>Description</th>
-            <th>Calories</th>
-            <th></th>
-            <th></th>
-        </tr>
-        </thead>
-        <c:forEach items="${mealList}" var="meal"><jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.to.UserMealWithExceed"/>
-            <tr class="${meal.exceed ? 'exceeded' : 'normal'}">
-                <td>
-                        <%--<fmt:parseDate value="${meal.dateTime}" pattern="y-M-dd'T'H:m" var="parsedDate"/>--%>
-                        <%--<fmt:formatDate value="${parsedDate}" pattern="yyyy.MM.dd HH:mm" />--%>
-                    <%=TimeUtil.toString(meal.getDateTime())%>
-                </td>
-                <td>${meal.description}</td>
-                <td>${meal.calories}</td>
-                <td><a href="meals?action=update&id=${meal.id}">Update</a></td>
-                <td><a href="meals?action=delete&id=${meal.id}">Delete</a></td>
+            <a href="meals?action=create">Add Meal</a></p>
+        <hr>
+        <table border="1" cellpadding="8" cellspacing="0">
+            <thead>
+            <tr>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Calories</th>
+                <th></th>
+                <th></th>
             </tr>
-        </c:forEach>
-    </table>
+            </thead>
+            <c:forEach items="${mealList}" var="meal">
+                <jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.to.UserMealWithExceed"/>
+                <tr class="${meal.exceed ? 'exceeded' : 'normal'}">
+                    <td>
+                            <%--<fmt:parseDate value="${meal.dateTime}" pattern="y-M-dd'T'H:m" var="parsedDate"/>--%>
+                            <%--<fmt:formatDate value="${parsedDate}" pattern="yyyy.MM.dd HH:mm" />--%>
+                        <%=TimeUtil.toString(meal.getDateTime())%>
+                    </td>
+                    <td>${meal.description}</td>
+                    <td>${meal.calories}</td>
+                    <td><a href="meals?action=update&id=${meal.id}">Update</a></td>
+                    <td><a href="meals?action=delete&id=${meal.id}">Delete</a></td>
+                </tr>
+            </c:forEach>
+        </table>
+    </div>
 </section>
 </body>
 </html>

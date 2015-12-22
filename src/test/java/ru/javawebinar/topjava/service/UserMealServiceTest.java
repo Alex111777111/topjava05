@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by maria on 20.12.2015.
@@ -36,6 +37,12 @@ public class UserMealServiceTest {
     @Autowired
     private DbPopulator dbPopulator;
     List<UserMeal> meals = new ArrayList<>();
+    UserMeal userMealGet;
+    UserMeal newUserMeal;
+    UserMeal userMealUpdate;
+    UserMeal userMealSave;
+    UserMeal userMealUpdateExc;
+
 
     @Before
     public void setUp() throws Exception {
@@ -48,12 +55,17 @@ public class UserMealServiceTest {
                 new UserMeal(100003, LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000),
                 new UserMeal(100002, LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500)
         );
+        userMealGet = new UserMeal(100002, LocalDateTime.parse("2015-05-30T10:00"), "Завтрак", 500);
+        newUserMeal = new UserMeal(null, LocalDateTime.parse("2015-12-21T13:00:00"), "Новый обед для админа", 1000);
+        userMealUpdate = new UserMeal(100009, LocalDateTime.parse("2015-12-21T00:43:12"), "Ужин для админа новый", 1000);
+        userMealSave = new UserMeal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин дубликат", 2500);
+        userMealUpdateExc = new UserMeal(100, LocalDateTime.parse("2015-12-21T13:00:00"), "Новый обед для админа", 1000);
     }
 
     @Test
     public void testGet() throws Exception {
         UserMeal userMeal = service.get(100002, 100000);
-        assertEquals(userMeal.toString(), "UserMeal{id=100002, dateTime=2015-05-30T10:00, description='Завтрак', calories=500}");
+        assertEquals(userMeal.toString(), userMealGet.toString());
 
     }
 
@@ -81,19 +93,19 @@ public class UserMealServiceTest {
         assertEquals(list.size(), 6);
         assertEquals(meals.get(3).toString(), list.get(3).toString());
         assertEquals(meals.get(5).getDateTimeLocal(), list.get(5).getDateTimeLocal());
-        //  assertEquals(meals,list);
+        // assertEquals(meals,list);
+
 
     }
 
     @Test
     public void testUpdate() throws Exception {
-        UserMeal userMeal = service.update(new UserMeal(100009, LocalDateTime.parse("2015-12-21T00:43:12"), "Ужин для админа новый", 1000), 100001);
-        assertEquals(userMeal.toString(), "UserMeal{id=100009, dateTime=2015-12-21T00:43:12, description='Ужин для админа новый', calories=1000}");
+        UserMeal userMeal = service.update(userMealUpdate, 100001);
+        assertEquals(userMeal.toString(), userMealUpdate.toString());
     }
 
     @Test
     public void testSave() throws Exception {
-        UserMeal newUserMeal = new UserMeal(null, LocalDateTime.parse("2015-12-21T13:00:00"), "Новый обед для админа", 1000);
         UserMeal createdUserMeal = service.save(newUserMeal, 100001);
         newUserMeal.setId(createdUserMeal.getId());
         assertEquals(newUserMeal.toString(), createdUserMeal.toString());
@@ -108,7 +120,7 @@ public class UserMealServiceTest {
 
     @Test(expected = DataAccessException.class)
     public void testDuplicateMailSave() throws Exception {
-        service.save(new UserMeal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин дубликат", 2500), 100000);
+        service.save(userMealSave, 100000);
     }
 
     @Test
@@ -116,6 +128,11 @@ public class UserMealServiceTest {
         service.delete(100008, 100001);
         assertEquals(service.getAll(100001).size(), 2);
 
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void testAnotherUserMealUpdate() throws Exception {
+        service.update(userMealUpdateExc, 100001);
     }
 
 }
