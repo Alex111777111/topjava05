@@ -40,6 +40,6 @@ public class UserServiceImpl implements UserService {
     }
 
     public void update(User user) {
-        repository.save(user);
+        ExceptionUtil.check(repository.save(user), user.getId());
     }
 }

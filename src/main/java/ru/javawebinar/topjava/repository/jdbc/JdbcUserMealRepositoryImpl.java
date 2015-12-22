@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.repository.UserMealRepository;
 import ru.javawebinar.topjava.util.TimeUtil;
-import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
@@ -60,7 +59,7 @@ public class JdbcUserMealRepositoryImpl implements UserMealRepository {
                         "UPDATE meals SET date_time=:date_time, description=:description, calories=:calories, " +
                                 "user_id=:user_id WHERE id=:id", map);
             } else {
-                throw new NotFoundException("This id don't exist");
+                return null;
             }
         }
         return userMeal;

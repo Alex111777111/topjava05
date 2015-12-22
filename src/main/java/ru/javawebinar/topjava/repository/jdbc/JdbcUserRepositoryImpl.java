@@ -60,7 +60,7 @@ public class JdbcUserRepositoryImpl implements UserRepository {
                         "UPDATE users SET name=:name, email=:email, password=:password, " +
                                 "registered=:registered, enabled=:enabled, calories_per_day=:caloriesPerDay WHERE id=:id", map);
             } else {
-                throw new NotFoundException("This id don't exist");
+                return null;
             }
         }
         return user;
