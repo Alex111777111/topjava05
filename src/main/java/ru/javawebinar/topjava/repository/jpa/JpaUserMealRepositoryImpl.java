@@ -41,7 +41,6 @@ public class JpaUserMealRepositoryImpl implements UserMealRepository {
                 return null;
             }
         }
-
     }
 
     @Override
@@ -59,23 +58,7 @@ public class JpaUserMealRepositoryImpl implements UserMealRepository {
         UserMeal meal = em.find(UserMeal.class, id);
         return meal.getUser().getId() == userId ? meal : null;
     }
-    // UserMeal um = em.find(UserMeal.class, id);
-            /*User ref = em.getReference(User.class, userId);
-            UserMeal um = (UserMeal) em.createNamedQuery(UserMeal.GET)
-                    .setParameter("id", id)
-                    .setParameter("userId", userId)
-                    .getSingleResult();
-            um.setUser(ref);
-            return um;*/
 
-       /* if (um.getUser().getId() == userId) {
-            return um;
-        }
-        else {
-            return null;
-        }*/
-
-    //  }
 
     @Override
     public List<UserMeal> getAll(int userId) {
