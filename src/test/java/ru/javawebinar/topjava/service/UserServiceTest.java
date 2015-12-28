@@ -31,6 +31,9 @@ public class UserServiceTest {
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
+    @Rule
+    public StopwatchTest stopwatchTest = new StopwatchTest();
+
     @Autowired
     protected UserService service;
 
@@ -45,7 +48,7 @@ public class UserServiceTest {
     @Test
     public void testDuplicateMailSave() throws Exception {
         exception.expect(DataAccessException.class);
-        //   exception.expectMessage("Подробности: Ключ \"(email)=(user@yandex.ru)\" уже существует.");
+        exception.expectMessage("nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement");
         service.save(new TestUser("Duplicate", "user@yandex.ru", "newPass", Role.ROLE_USER).asUser());
     }
 
