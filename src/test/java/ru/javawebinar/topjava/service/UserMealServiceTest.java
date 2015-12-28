@@ -1,8 +1,12 @@
 package ru.javawebinar.topjava.service;
 
+import oracle.jrockit.jfr.jdkevents.ThrowableTracer;
+import org.junit.AssumptionViolatedException;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.internal.Throwables;
 import org.junit.rules.ExpectedException;
+import org.junit.rules.Stopwatch;
 import org.junit.rules.TestRule;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
@@ -18,6 +22,7 @@ import ru.javawebinar.topjava.MealTestData;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
@@ -42,43 +47,9 @@ public class UserMealServiceTest {
 
     @Rule
     public TimeRule timeRule = new TimeRule();
-    //   }
+    @Rule
+    public StopwatchTest stopwatchTest = new StopwatchTest();
 
-
-
-                       /* try {
-                            base.evaluate();
-                            return;
-                        } catch (Throwable t) {
-                            e = t;
-                            if (!isContainsThrowable(e)) {
-                                throw e;
-                            } else {
-                                if (i <= attempts - 1) {
-                                    logError(e);
-                                }
-                            }
-                        }
-                    }
-                    throw e;
-                }
-            };
-        }*/
-
-
-
-       /* @Override
-        protected void starting(Description description) {
-            super.starting(description);
-
-
-        }
-
-        @Override
-        protected void finished(Description description) {
-            super.finished(description);
-        }*/
-    // };
 
 
     @Autowired
@@ -86,40 +57,41 @@ public class UserMealServiceTest {
 
     @Test
     public void testDelete() throws Throwable {
-        // float start = ;
-        timeRule.setStart(LocalTime.now().getNano());
+        LocalTime start = LocalTime.now();
+        String log = timeRule.testApply();
         service.delete(MealTestData.MEAL1_ID, USER_ID);
         MATCHER.assertCollectionEquals(Arrays.asList(MEAL6, MEAL5, MEAL4, MEAL3, MEAL2), service.getAll(USER_ID));
-        //   LOG.info(timeRule.testApply());
-        String log = timeRule.testApply();
-        LOG.info(log);
-        //  LOG.info("lead time " + (LocalTime.now().getNano() - start) + " nanosecond");
-        //   LOG.info("lead time " +((LocalTime.now().getNano() - start) /1000000000) + " second");
-        //1000000000
+        LOG.info(log + Duration.between(start, LocalTime.now()).toMillis() + " ms");
     }
 
 
     @Test
     public void testDeleteNotFound() throws Exception {
-        //     timeRule.testApply();
+        LocalTime start = LocalTime.now();
+        String log = timeRule.testApply();
         exception.expect(NotFoundException.class);
         exception.expectMessage("Not found entity with id=100002");
         service.delete(MEAL1_ID, 1);
-        //   timeRule.testApply();
+        //   LOG.info(log +  Duration.between(start, LocalTime.now()).toMillis()+ " ms");
     }
 
     @Test
     public void testSave() throws Exception {
+        LocalTime start = LocalTime.now();
+        String log = timeRule.testApply();
         UserMeal created = getCreated();
         service.save(created, USER_ID);
         MATCHER.assertCollectionEquals(Arrays.asList(created, MEAL6, MEAL5, MEAL4, MEAL3, MEAL2, MEAL1), service.getAll(USER_ID));
-
+        LOG.info(log + Duration.between(start, LocalTime.now()).toMillis() + " ms");
     }
 
     @Test
     public void testGet() throws Exception {
+        LocalTime start = LocalTime.now();
+        String log = timeRule.testApply();
         UserMeal actual = service.get(ADMIN_MEAL_ID, ADMIN_ID);
         MATCHER.assertEquals(ADMIN_MEAL, actual);
+        LOG.info(log + Duration.between(start, LocalTime.now()).toMillis() + " ms");
     }
 
     @Test
@@ -131,27 +103,42 @@ public class UserMealServiceTest {
 
     @Test
     public void testUpdate() throws Exception {
+        LocalTime start = LocalTime.now();
+        String log = timeRule.testApply();
         UserMeal updated = getUpdated();
         service.update(updated, USER_ID);
         MATCHER.assertEquals(updated, service.get(MEAL1_ID, USER_ID));
+        LOG.info(log + Duration.between(start, LocalTime.now()).toMillis() + " ms");
     }
 
     @Test
     public void testNotFoundUpdate() throws Exception {
+        LocalTime start = LocalTime.now();
+        String log = timeRule.testApply();
         exception.expect(NotFoundException.class);
         exception.expectMessage("Not found entity with id=100002");
         UserMeal item = service.get(MEAL1_ID, USER_ID);
         service.update(item, ADMIN_ID);
+        //  stopwatchTest.failed(Duration.between(start, LocalTime.now()).toNanos(), null, Description.TEST_MECHANISM);
+
+
+
     }
 
     @Test
     public void testGetAll() throws Exception {
+        LocalTime start = LocalTime.now();
+        String log = timeRule.testApply();
         MATCHER.assertCollectionEquals(USER_MEALS, service.getAll(USER_ID));
+        //  LOG.info(log +  Duration.between(start, LocalTime.now()).toMillis()+ " ms");
     }
 
     @Test
     public void testGetBetween() throws Exception {
+        LocalTime start = LocalTime.now();
+        String log = timeRule.testApply();
         MATCHER.assertCollectionEquals(Arrays.asList(MEAL3, MEAL2, MEAL1),
                 service.getBetweenDates(LocalDate.of(2015, Month.MAY, 30), LocalDate.of(2015, Month.MAY, 30), USER_ID));
+        LOG.info(log + Duration.between(start, LocalTime.now()).toMillis() + " ms");
     }
 }
