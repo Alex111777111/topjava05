@@ -1,6 +1,8 @@
 package ru.javawebinar.topjava.service;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -26,6 +28,8 @@ import static ru.javawebinar.topjava.UserTestData.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class UserServiceTest {
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
 
     @Autowired
     protected UserService service;
@@ -38,8 +42,10 @@ public class UserServiceTest {
         MATCHER.assertCollectionEquals(Arrays.asList(ADMIN, tu, USER), service.getAll());
     }
 
-    @Test(expected = DataAccessException.class)
+    @Test
     public void testDuplicateMailSave() throws Exception {
+        exception.expect(DataAccessException.class);
+        //   exception.expectMessage("Подробности: Ключ \"(email)=(user@yandex.ru)\" уже существует.");
         service.save(new TestUser("Duplicate", "user@yandex.ru", "newPass", Role.ROLE_USER).asUser());
     }
 
@@ -49,8 +55,10 @@ public class UserServiceTest {
         MATCHER.assertCollectionEquals(Collections.singletonList(ADMIN), service.getAll());
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void testNotFoundDelete() throws Exception {
+        exception.expect(NotFoundException.class);
+        exception.expectMessage("Not found entity with id=1");
         service.delete(1);
     }
 
@@ -60,8 +68,10 @@ public class UserServiceTest {
         MATCHER.assertEquals(USER, user);
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void testGetNotFound() throws Exception {
+        exception.expect(NotFoundException.class);
+        exception.expectMessage("Not found entity with id=1");
         service.get(1);
     }
 
