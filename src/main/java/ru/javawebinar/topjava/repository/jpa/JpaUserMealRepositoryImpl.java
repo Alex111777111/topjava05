@@ -54,7 +54,6 @@ public class JpaUserMealRepositoryImpl implements UserMealRepository {
 
     @Override
     public UserMeal get(int id, int userId) {
-
         UserMeal meal = em.find(UserMeal.class, id);
         return meal.getUser().getId() == userId ? meal : null;
     }
