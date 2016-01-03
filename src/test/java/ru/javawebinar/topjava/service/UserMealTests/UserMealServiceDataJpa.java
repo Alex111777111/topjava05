@@ -6,6 +6,6 @@ import ru.javawebinar.topjava.Profiles;
 /**
  * Created by B on 03.01.2016.
  */
-@ActiveProfiles({Profiles.POSTGRES, Profiles.DATAJPA})
+@ActiveProfiles({Profiles.HSQLDB, Profiles.DATAJPA})
 public class UserMealServiceDataJpa extends UserMealServiceTest {
 }

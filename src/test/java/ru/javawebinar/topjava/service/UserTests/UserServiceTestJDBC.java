@@ -6,6 +6,6 @@ import ru.javawebinar.topjava.Profiles;
 /**
  * Created by Maria on 03.01.2016.
  */
-@ActiveProfiles({Profiles.HSQLDB, Profiles.JDBC})
+@ActiveProfiles({Profiles.POSTGRES, Profiles.JDBC})
 public class UserServiceTestJDBC extends UserServiceTest {
 }
