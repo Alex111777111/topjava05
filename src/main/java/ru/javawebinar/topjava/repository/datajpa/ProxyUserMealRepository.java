@@ -15,6 +15,7 @@ import java.util.List;
 /**
  * Created by Maria on 01.01.2016.
  */
+@Transactional(readOnly = true)
 public interface ProxyUserMealRepository extends JpaRepository<UserMeal, Integer> {
 
     @Transactional
@@ -25,7 +26,7 @@ public interface ProxyUserMealRepository extends JpaRepository<UserMeal, Integer
 
     @Override
     @Transactional
-    @Query(name = UserMeal.UPDATE)
+        // @Query(name = UserMeal.UPDATE)
     UserMeal save(UserMeal userMeal);
 
     @Modifying
@@ -40,8 +41,9 @@ public interface ProxyUserMealRepository extends JpaRepository<UserMeal, Integer
     @Query(name = UserMeal.GET_BETWEEN)
     List<UserMeal> findBetween(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate, @Param("userId") int userIid);
 
-  /*//  UPDATE DepartmentEntity d SET d.name=:name where d.id = :id"
-    @Query("UPDATE UserMeal um SET um.dateTime = :dateTime, um.user =:user, um.calories =:calories, um.description = :description WHERE um.id = :id AND um.user.id=:userId")
-    List<UserMeal> update(@Param("id") int id, @Param("userId") int userId, @Param("dateTime") LocalDateTime dateTime, @Param("user") User user, @Param("calories") int calories, @Param("description") String description);
-*/
+
+    @Transactional
+    @Query(name = UserMeal.UPDATE)
+    List<UserMeal> update(@Param("datetime") LocalDateTime dateTime, @Param("id") int id, @Param("userId") int userId, /*@Param("user") User user,*/ @Param("calories") int calories, @Param("description") String description);
+
 }

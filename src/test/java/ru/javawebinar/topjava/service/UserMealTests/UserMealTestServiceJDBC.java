@@ -1,0 +1,11 @@
+package ru.javawebinar.topjava.service.UserMealTests;
+
+import org.springframework.test.context.ActiveProfiles;
+import ru.javawebinar.topjava.Profiles;
+
+/**
+ * Created by Maria on 03.01.2016.
+ */
+@ActiveProfiles({Profiles.POSTGRES, Profiles.JDBC})
+public class UserMealTestServiceJDBC extends UserMealServiceTest {
+}
