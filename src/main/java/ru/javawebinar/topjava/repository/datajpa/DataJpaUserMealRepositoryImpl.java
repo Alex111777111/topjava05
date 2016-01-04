@@ -1,7 +1,8 @@
 package ru.javawebinar.topjava.repository.datajpa;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.model.UserMeal;
@@ -9,6 +10,8 @@ import ru.javawebinar.topjava.repository.UserMealRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * GKislin
@@ -17,18 +20,14 @@ import java.util.List;
 @Repository
 public class DataJpaUserMealRepositoryImpl implements UserMealRepository {
 
-
     @Autowired
     private ProxyUserMealRepository proxy;
 
-    @Autowired
-    private ProxyUserRepository proxyUserRepository;
+
     @Override
     public UserMeal save(UserMeal userMeal, int userId) {
-        UserMeal um = proxy.save(userMeal);
-        User user = proxyUserRepository.getOne(userId);
-        um.setUser(user);
-        return get(um.getId(), userId) != null ? get(um.getId(), userId) : null;
+        int idNew = proxy.save(userMeal).getId();
+        return getMeaLWithUser(idNew, userId);
     }
 
     @Override
@@ -38,6 +37,7 @@ public class DataJpaUserMealRepositoryImpl implements UserMealRepository {
 
     @Override
     public UserMeal get(int id, int userId) {
+
         return proxy.findOne(id, userId).isEmpty() ? null : proxy.findOne(id, userId).get(0);
 
     }
@@ -51,4 +51,16 @@ public class DataJpaUserMealRepositoryImpl implements UserMealRepository {
     public List<UserMeal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
         return proxy.findBetween(startDate, endDate, userId);
     }
+
+    public UserMeal getMeaLWithUser(int id, int userId) {
+        List<UserMeal> userMeals = proxy.findMealWihtUser(userId);
+        List<UserMeal> um = userMeals
+                .stream()
+                .filter(userMeal -> userMeal.getId() == id)
+                .collect(Collectors.toList());
+
+        return um.isEmpty() ? null : um.get(0);
+    }
+
+
 }

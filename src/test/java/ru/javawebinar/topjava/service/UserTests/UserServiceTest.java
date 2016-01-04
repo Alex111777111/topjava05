@@ -14,6 +14,7 @@ import ru.javawebinar.topjava.Profiles;
 import ru.javawebinar.topjava.UserTestData.*;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
+import ru.javawebinar.topjava.service.BaseServiceTest;
 import ru.javawebinar.topjava.service.UserService;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
@@ -23,14 +24,8 @@ import java.util.Collections;
 
 import static ru.javawebinar.topjava.UserTestData.*;
 
-@ContextConfiguration({
-        "classpath:spring/spring-app.xml",
-        "classpath:spring/spring-db.xml"
-})
-@RunWith(SpringJUnit4ClassRunner.class)
-@Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
-/*@ActiveProfiles({Profiles.HSQLDB, Profiles.JDBC})*/
-public abstract class UserServiceTest {
+
+public abstract class UserServiceTest extends BaseServiceTest {
 
     @Autowired
     protected UserService service;
@@ -39,7 +34,8 @@ public abstract class UserServiceTest {
     public void setUp() throws Exception {
         service.evictCache();
     }
-        
+
+    @Override
     @Test
     public void testSave() throws Exception {
         TestUser tu = new TestUser(null, "New", "new@gmail.com", "newPass", 1555, false, Collections.singleton(Role.ROLE_USER));
@@ -53,23 +49,27 @@ public abstract class UserServiceTest {
         service.save(new TestUser("Duplicate", "user@yandex.ru", "newPass", Role.ROLE_USER).asUser());
     }
 
+    @Override
     @Test
     public void testDelete() throws Exception {
         service.delete(USER_ID);
         MATCHER.assertCollectionEquals(Collections.singletonList(ADMIN), service.getAll());
     }
 
+    @Override
     @Test(expected = NotFoundException.class)
-    public void testNotFoundDelete() throws Exception {
+    public void testDeleteNotFound() throws Exception {
         service.delete(1);
     }
 
+    @Override
     @Test
     public void testGet() throws Exception {
         User user = service.get(USER_ID);
         MATCHER.assertEquals(USER, user);
     }
 
+    @Override
     @Test(expected = NotFoundException.class)
     public void testGetNotFound() throws Exception {
         service.get(1);
@@ -82,12 +82,14 @@ public abstract class UserServiceTest {
 
     }
 
+    @Override
     @Test
     public void testGetAll() throws Exception {
         Collection<User> all = service.getAll();
         MATCHER.assertCollectionEquals(Arrays.asList(ADMIN, USER), all);
     }
 
+    @Override
     @Test
     public void testUpdate() throws Exception {
         TestUser updated = new TestUser(USER);
