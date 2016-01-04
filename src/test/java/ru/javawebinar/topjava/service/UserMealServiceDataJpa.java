@@ -1,4 +1,4 @@
-package ru.javawebinar.topjava.service.UserMealTests;
+package ru.javawebinar.topjava.service;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +11,7 @@ import static ru.javawebinar.topjava.MealTestData.MATCHER;
 import static ru.javawebinar.topjava.MealTestData.USER_MEALS;
 import static ru.javawebinar.topjava.UserTestData.USER_ID;
 
-/**
- * Created by B on 03.01.2016.
- */
-@ActiveProfiles({Profiles.POSTGRES, Profiles.DATAJPA})
+@ActiveProfiles(profiles = {Profiles.POSTGRES, Profiles.DATAJPA})
 public class UserMealServiceDataJpa extends UserMealServiceTest {
 
 
@@ -28,3 +25,4 @@ public class UserMealServiceDataJpa extends UserMealServiceTest {
 
     }
 }
+

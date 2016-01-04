@@ -1,4 +1,4 @@
-package ru.javawebinar.topjava.service.UserTests;
+package ru.javawebinar.topjava.service;
 
 import org.springframework.test.context.ActiveProfiles;
 import ru.javawebinar.topjava.Profiles;
@@ -6,6 +6,6 @@ import ru.javawebinar.topjava.Profiles;
 /**
  * Created by Maria on 03.01.2016.
  */
-@ActiveProfiles({Profiles.POSTGRES, Profiles.JDBC})
+@ActiveProfiles(profiles = {Profiles.POSTGRES, Profiles.JDBC})
 public class UserServiceTestJDBC extends UserServiceTest {
 }

@@ -1,4 +1,4 @@
-package ru.javawebinar.topjava.service.UserMealTests;
+package ru.javawebinar.topjava.service;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.javawebinar.topjava.LoggerWrapper;
 import ru.javawebinar.topjava.MealTestData;
 import ru.javawebinar.topjava.model.UserMeal;
-import ru.javawebinar.topjava.service.BaseServiceTest;
-import ru.javawebinar.topjava.service.UserMealService;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
@@ -25,6 +23,7 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 
 public abstract class UserMealServiceTest extends BaseServiceTest {
     private static final LoggerWrapper LOG = LoggerWrapper.get(UserMealServiceTest.class);
+
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -43,24 +42,23 @@ public abstract class UserMealServiceTest extends BaseServiceTest {
         }
     };
 
+
     @Autowired
     protected UserMealService service;
 
-    @Override
+
     @Test
     public void testDelete() throws Exception {
         service.delete(MealTestData.MEAL1_ID, USER_ID);
         MATCHER.assertCollectionEquals(Arrays.asList(MEAL6, MEAL5, MEAL4, MEAL3, MEAL2), service.getAll(USER_ID));
     }
 
-    @Override
     @Test
     public void testDeleteNotFound() throws Exception {
         thrown.expect(NotFoundException.class);
         service.delete(MEAL1_ID, 1);
     }
 
-    @Override
     @Test
     public void testSave() throws Exception {
         UserMeal created = getCreated();
@@ -68,21 +66,18 @@ public abstract class UserMealServiceTest extends BaseServiceTest {
         MATCHER.assertCollectionEquals(Arrays.asList(created, MEAL6, MEAL5, MEAL4, MEAL3, MEAL2, MEAL1), service.getAll(USER_ID));
     }
 
-    @Override
     @Test
     public void testGet() throws Exception {
         UserMeal actual = service.get(ADMIN_MEAL_ID, ADMIN_ID);
         MATCHER.assertEquals(ADMIN_MEAL, actual);
     }
 
-    @Override
     @Test
     public void testGetNotFound() throws Exception {
         thrown.expect(NotFoundException.class);
         service.get(MEAL1_ID, ADMIN_ID);
     }
 
-    @Override
     @Test
     public void testUpdate() throws Exception {
         UserMeal updated = getUpdated();
@@ -98,7 +93,6 @@ public abstract class UserMealServiceTest extends BaseServiceTest {
         service.update(item, ADMIN_ID);
     }
 
-    @Override
     @Test
     public void testGetAll() throws Exception {
         MATCHER.assertCollectionEquals(USER_MEALS, service.getAll(USER_ID));
@@ -110,3 +104,4 @@ public abstract class UserMealServiceTest extends BaseServiceTest {
                 service.getBetweenDates(LocalDate.of(2015, Month.MAY, 30), LocalDate.of(2015, Month.MAY, 30), USER_ID));
     }
 }
+
