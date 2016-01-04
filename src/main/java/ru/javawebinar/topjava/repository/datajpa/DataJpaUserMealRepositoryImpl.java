@@ -22,12 +22,19 @@ public class DataJpaUserMealRepositoryImpl implements UserMealRepository {
 
     @Autowired
     private ProxyUserMealRepository proxy;
+    @Autowired
+    private ProxyUserRepository proxyUserRepository;
 
 
     @Override
     public UserMeal save(UserMeal userMeal, int userId) {
-        int idNew = proxy.save(userMeal).getId();
-        return getMeaLWithUser(idNew, userId);
+        User user = proxyUserRepository.getOne(userId);
+        userMeal.setUser(user);
+        if (!userMeal.isNew() && get(userMeal.getId(), userId) == null) {
+            return null;
+        } else {
+            return proxy.save(userMeal);
+        }
     }
 
     @Override
@@ -52,15 +59,7 @@ public class DataJpaUserMealRepositoryImpl implements UserMealRepository {
         return proxy.findBetween(startDate, endDate, userId);
     }
 
-    public UserMeal getMeaLWithUser(int id, int userId) {
-        List<UserMeal> userMeals = proxy.findMealWihtUser(userId);
-        List<UserMeal> um = userMeals
-                .stream()
-                .filter(userMeal -> userMeal.getId() == id)
-                .collect(Collectors.toList());
 
-        return um.isEmpty() ? null : um.get(0);
-    }
 
 
 }
