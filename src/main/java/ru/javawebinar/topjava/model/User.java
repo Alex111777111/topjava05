@@ -56,10 +56,17 @@ public class User extends NamedEntity {
     @Digits(fraction = 0, integer = 4)
     protected int caloriesPerDay = UserMealsUtil.DEFAULT_CALORIES_PER_DAY;
 
-   /* @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
    @CollectionTable(name = "meals", joinColumns = @JoinColumn(name = "user_id"))
-   private List<UserMeal> meals;*/
+    private List<UserMeal> meals;
 
+    public List<UserMeal> getMeals() {
+        return meals;
+    }
+
+    public void setMeals(List<UserMeal> meals) {
+        this.meals = meals;
+    }
 
     public User() {
     }

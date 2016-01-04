@@ -45,7 +45,7 @@ public interface ProxyUserMealRepository extends JpaRepository<UserMeal, Integer
     List<UserMeal> findBetween(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate, @Param("userId") int userIid);
 
 
-    @Query("SELECT m FROM UserMeal m LEFT JOIN FETCH m.user WHERE m.user.id=:userId")
+    @Query("SELECT m FROM UserMeal m LEFT JOIN FETCH m.user WHERE m.user.id=:userId ORDER BY m.dateTime DESC")
     List<UserMeal> findMealWihtUser(@Param("userId") int userId);
   /*  @Transactional
     @Query(name = UserMeal.UPDATE)

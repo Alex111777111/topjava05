@@ -2,7 +2,9 @@ package ru.javawebinar.topjava.web;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.test.context.ActiveProfiles;
 import ru.javawebinar.topjava.LoggerWrapper;
+import ru.javawebinar.topjava.Profiles;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.util.TimeUtil;
 import ru.javawebinar.topjava.web.meal.UserMealRestController;
@@ -22,6 +24,7 @@ import java.util.Objects;
  * User: gkislin
  * Date: 19.08.2014
  */
+
 public class MealServlet extends HttpServlet {
     private static final LoggerWrapper LOG = LoggerWrapper.get(MealServlet.class);
 

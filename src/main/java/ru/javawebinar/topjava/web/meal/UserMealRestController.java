@@ -2,8 +2,10 @@ package ru.javawebinar.topjava.web.meal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.context.ActiveProfiles;
 import ru.javawebinar.topjava.LoggedUser;
 import ru.javawebinar.topjava.LoggerWrapper;
+import ru.javawebinar.topjava.Profiles;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.to.UserMealWithExceed;
 import ru.javawebinar.topjava.service.UserMealService;

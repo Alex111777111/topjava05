@@ -1,16 +1,14 @@
 package ru.javawebinar.topjava.repository.datajpa;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.repository.UserMealRepository;
+import ru.javawebinar.topjava.repository.UserWithMealRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -18,7 +16,7 @@ import java.util.stream.Collectors;
  * 27.03.2015.
  */
 @Repository
-public class DataJpaUserMealRepositoryImpl implements UserMealRepository {
+public class DataJpaUserMealRepositoryImpl implements UserMealRepository, UserWithMealRepository {
 
     @Autowired
     private ProxyUserMealRepository proxy;
@@ -60,6 +58,25 @@ public class DataJpaUserMealRepositoryImpl implements UserMealRepository {
     }
 
 
+    @Override
+    public UserMeal getMeaLWithUser(int id, int userId) {
+        List<UserMeal> userMeals = proxy.findMealWihtUser(userId);
+        List<UserMeal> um = userMeals
+                .stream()
+                .filter(userMeal -> userMeal.getId() == id)
+                .collect(Collectors.toList());
+        return um.isEmpty() ? null : um.get(0);
+    }
 
+    @Override
+    public User getUserWithMeals(int userId) {
+        List<UserMeal> userMeals = proxy.findMealWihtUser(userId);
+        if (!userMeals.isEmpty()) {
+            User user = userMeals.get(0).getUser();
+            user.setMeals(userMeals);
+            return user;
+        } else return null;
+
+    }
 
 }
