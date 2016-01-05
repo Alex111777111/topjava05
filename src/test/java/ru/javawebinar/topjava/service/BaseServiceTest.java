@@ -1,15 +1,11 @@
 package ru.javawebinar.topjava.service;
 
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-/**
- * Created by Maria on 04.01.2016.
- */
 @ContextConfiguration({
         "classpath:spring/spring-app.xml",
         "classpath:spring/spring-db.xml"
@@ -18,32 +14,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public abstract class BaseServiceTest {
 
-    @Test
-    public void testDelete() throws Exception {
-    }
-
-    @Test
-    public void testDeleteNotFound() throws Exception {
-    }
-
-    @Test
-    public void testSave() throws Exception {
-    }
-
-    @Test
-    public void testGet() throws Exception {
-    }
-
-    @Test
-    public void testGetNotFound() throws Exception {
-    }
-
-    @Test
-    public void testGetAll() throws Exception {
-    }
-
-    @Test
-    public void testUpdate() throws Exception {
-    }
-
 }
+
+

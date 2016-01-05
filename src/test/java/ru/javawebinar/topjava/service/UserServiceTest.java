@@ -1,21 +1,13 @@
-package ru.javawebinar.topjava.service.UserTests;
+package ru.javawebinar.topjava.service;
+
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import ru.javawebinar.topjava.Profiles;
-import ru.javawebinar.topjava.UserTestData.*;
+import ru.javawebinar.topjava.UserTestData;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
-import ru.javawebinar.topjava.service.BaseServiceTest;
-import ru.javawebinar.topjava.service.UserService;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.util.Arrays;
@@ -35,10 +27,9 @@ public abstract class UserServiceTest extends BaseServiceTest {
         service.evictCache();
     }
 
-    @Override
     @Test
     public void testSave() throws Exception {
-        TestUser tu = new TestUser(null, "New", "new@gmail.com", "newPass", 1555, false, Collections.singleton(Role.ROLE_USER));
+        UserTestData.TestUser tu = new UserTestData.TestUser(null, "New", "new@gmail.com", "newPass", 1555, false, Collections.singleton(Role.ROLE_USER));
         User created = service.save(tu.asUser());
         tu.setId(created.getId());
         MATCHER.assertCollectionEquals(Arrays.asList(ADMIN, tu, USER), service.getAll());
@@ -46,30 +37,26 @@ public abstract class UserServiceTest extends BaseServiceTest {
 
     @Test(expected = DataAccessException.class)
     public void testDuplicateMailSave() throws Exception {
-        service.save(new TestUser("Duplicate", "user@yandex.ru", "newPass", Role.ROLE_USER).asUser());
+        service.save(new UserTestData.TestUser("Duplicate", "user@yandex.ru", "newPass", Role.ROLE_USER).asUser());
     }
 
-    @Override
     @Test
     public void testDelete() throws Exception {
         service.delete(USER_ID);
         MATCHER.assertCollectionEquals(Collections.singletonList(ADMIN), service.getAll());
     }
 
-    @Override
     @Test(expected = NotFoundException.class)
-    public void testDeleteNotFound() throws Exception {
+    public void testNotFoundDelete() throws Exception {
         service.delete(1);
     }
 
-    @Override
     @Test
     public void testGet() throws Exception {
         User user = service.get(USER_ID);
         MATCHER.assertEquals(USER, user);
     }
 
-    @Override
     @Test(expected = NotFoundException.class)
     public void testGetNotFound() throws Exception {
         service.get(1);
@@ -82,14 +69,12 @@ public abstract class UserServiceTest extends BaseServiceTest {
 
     }
 
-    @Override
     @Test
     public void testGetAll() throws Exception {
         Collection<User> all = service.getAll();
         MATCHER.assertCollectionEquals(Arrays.asList(ADMIN, USER), all);
     }
 
-    @Override
     @Test
     public void testUpdate() throws Exception {
         TestUser updated = new TestUser(USER);
@@ -99,3 +84,4 @@ public abstract class UserServiceTest extends BaseServiceTest {
         MATCHER.assertEquals(updated, service.get(USER_ID));
     }
 }
+

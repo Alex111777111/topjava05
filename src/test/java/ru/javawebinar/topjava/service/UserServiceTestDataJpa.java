@@ -1,4 +1,4 @@
-package ru.javawebinar.topjava.service.UserTests;
+package ru.javawebinar.topjava.service;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,7 +6,6 @@ import org.springframework.test.context.ActiveProfiles;
 import ru.javawebinar.topjava.Profiles;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.repository.UserWithMealRepository;
-import ru.javawebinar.topjava.repository.datajpa.DataJpaUserMealRepositoryImpl;
 
 import static ru.javawebinar.topjava.MealTestData.ADMIN_MEAL_ID;
 import static ru.javawebinar.topjava.UserTestData.ADMIN;
@@ -16,7 +15,7 @@ import static ru.javawebinar.topjava.UserTestData.MATCHER;
 /**
  * Created by Maria on 03.01.2016.
  */
-@ActiveProfiles({Profiles.POSTGRES, Profiles.DATAJPA})
+@ActiveProfiles(profiles = {Profiles.POSTGRES, Profiles.DATAJPA})
 public class UserServiceTestDataJpa extends UserServiceTest {
 
 
