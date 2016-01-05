@@ -24,7 +24,7 @@ import java.util.Objects;
  * User: gkislin
  * Date: 19.08.2014
  */
-
+@ActiveProfiles({Profiles.POSTGRES, Profiles.DATAJPA})
 public class MealServlet extends HttpServlet {
     private static final LoggerWrapper LOG = LoggerWrapper.get(MealServlet.class);
 

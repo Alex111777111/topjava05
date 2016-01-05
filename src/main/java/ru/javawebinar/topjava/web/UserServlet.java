@@ -1,7 +1,9 @@
 package ru.javawebinar.topjava.web;
 
+import org.springframework.test.context.ActiveProfiles;
 import ru.javawebinar.topjava.LoggedUser;
 import ru.javawebinar.topjava.LoggerWrapper;
+import ru.javawebinar.topjava.Profiles;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +15,7 @@ import java.io.IOException;
  * User: gkislin
  * Date: 19.08.2014
  */
+@ActiveProfiles({Profiles.POSTGRES, Profiles.DATAJPA})
 public class UserServlet extends HttpServlet {
     private static final LoggerWrapper LOG = LoggerWrapper.get(UserServlet.class);
 

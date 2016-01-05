@@ -2,6 +2,8 @@ package ru.javawebinar.topjava.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.test.context.ActiveProfiles;
+import ru.javawebinar.topjava.Profiles;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.repository.UserMealRepository;
 import ru.javawebinar.topjava.util.exception.ExceptionUtil;
@@ -14,6 +16,7 @@ import java.util.Collection;
  * 06.03.2015.
  */
 @Service
+@ActiveProfiles({Profiles.POSTGRES, Profiles.DATAJPA})
 public class UserMealServiceImpl implements UserMealService {
 
     @Autowired
