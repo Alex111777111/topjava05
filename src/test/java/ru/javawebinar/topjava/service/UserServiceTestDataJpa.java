@@ -4,13 +4,13 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import ru.javawebinar.topjava.Profiles;
+import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.model.UserMeal;
-import ru.javawebinar.topjava.repository.UserWithMealRepository;
 
 import static ru.javawebinar.topjava.MealTestData.ADMIN_MEAL_ID;
-import static ru.javawebinar.topjava.UserTestData.ADMIN;
-import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
-import static ru.javawebinar.topjava.UserTestData.MATCHER;
+import static ru.javawebinar.topjava.MealTestData.MATCHER;
+import static ru.javawebinar.topjava.MealTestData.USER_MEALS;
+import static ru.javawebinar.topjava.UserTestData.*;
 
 /**
  * Created by Maria on 03.01.2016.
@@ -19,13 +19,10 @@ import static ru.javawebinar.topjava.UserTestData.MATCHER;
 public class UserServiceTestDataJpa extends UserServiceTest {
 
 
-    @Autowired
-    private UserWithMealRepository repository;
-
     @Test
     public void testGetMeaLWithUser() throws Exception {
-        UserMeal meal = repository.getMeaLWithUser(ADMIN_MEAL_ID, ADMIN_ID);
-        MATCHER.assertEquals(meal.getUser(), ADMIN);
+        User user = service.getUserWithMeals(USER_ID);
+        MATCHER.assertCollectionEquals(user.getMeals(), USER_MEALS);
     }
 
 }

@@ -27,4 +27,6 @@ public interface UserService {
     void update(User user);
 
     void evictCache();
+
+    User getUserWithMeals(int userId);
 }

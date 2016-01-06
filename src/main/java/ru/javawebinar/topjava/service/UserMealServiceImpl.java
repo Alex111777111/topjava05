@@ -8,6 +8,7 @@ import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.repository.UserMealRepository;
 import ru.javawebinar.topjava.util.exception.ExceptionUtil;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -33,6 +34,11 @@ public class UserMealServiceImpl implements UserMealService {
     }
 
     @Override
+    public Collection<UserMeal> getBetweenDates(LocalDate startDate, LocalDate endDate, int userId) {
+        return repository.getBetween(startDate.atStartOfDay(), endDate.atTime(23, 59, 59), userId);
+    }
+
+    @Override
     public Collection<UserMeal> getBetweenDateTimes(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
         return repository.getBetween(startDateTime, endDateTime, userId);
     }
@@ -50,5 +56,10 @@ public class UserMealServiceImpl implements UserMealService {
     @Override
     public UserMeal save(UserMeal meal, int userId) {
         return repository.save(meal, userId);
+    }
+
+    @Override
+    public UserMeal getMeaLWithUser(int id, int userId) {
+        return repository.getMeaLWithUser(id, userId);
     }
 }

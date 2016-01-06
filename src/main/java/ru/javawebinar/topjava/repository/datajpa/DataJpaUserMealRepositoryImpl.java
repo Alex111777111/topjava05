@@ -2,23 +2,19 @@ package ru.javawebinar.topjava.repository.datajpa;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.test.context.ActiveProfiles;
-import ru.javawebinar.topjava.Profiles;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.repository.UserMealRepository;
-import ru.javawebinar.topjava.repository.UserWithMealRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * GKislin
  * 27.03.2015.
  */
 @Repository
-public class DataJpaUserMealRepositoryImpl implements UserMealRepository, UserWithMealRepository {
+public class DataJpaUserMealRepositoryImpl implements UserMealRepository {
 
     @Autowired
     private ProxyUserMealRepository proxy;
@@ -44,8 +40,9 @@ public class DataJpaUserMealRepositoryImpl implements UserMealRepository, UserWi
 
     @Override
     public UserMeal get(int id, int userId) {
+        List<UserMeal> list = proxy.findOne(id, userId);
 
-        return proxy.findOne(id, userId).isEmpty() ? null : proxy.findOne(id, userId).get(0);
+        return list.isEmpty() ? null : list.get(0);
 
     }
 
@@ -62,23 +59,9 @@ public class DataJpaUserMealRepositoryImpl implements UserMealRepository, UserWi
 
     @Override
     public UserMeal getMeaLWithUser(int id, int userId) {
-        List<UserMeal> userMeals = proxy.findMealWihtUser(userId);
-        List<UserMeal> um = userMeals
-                .stream()
-                .filter(userMeal -> userMeal.getId() == id)
-                .collect(Collectors.toList());
+        List<UserMeal> um = proxy.findMealWithUser(id, userId);
         return um.isEmpty() ? null : um.get(0);
     }
 
-    @Override
-    public User getUserWithMeals(int userId) {
-        List<UserMeal> userMeals = proxy.findMealWihtUser(userId);
-        if (!userMeals.isEmpty()) {
-            User user = userMeals.get(0).getUser();
-            user.setMeals(userMeals);
-            return user;
-        } else return null;
-
-    }
 
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.User;
+import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.repository.UserRepository;
 
 import java.util.List;
@@ -43,5 +44,16 @@ public class DataJpaUserRepositoryImpl implements UserRepository {
     @Override
     public List<User> getAll() {
         return proxy.findAll(SORT_NAME_EMAIL);
+    }
+
+    @Override
+    public User getUserWithMeals(int userId) {
+        List<UserMeal> userMeals = proxy.findUserWithMeal(userId);
+        if (!userMeals.isEmpty()) {
+            User user = userMeals.get(0).getUser();
+            user.setMeals(userMeals);
+            return user;
+        } else return null;
+
     }
 }
