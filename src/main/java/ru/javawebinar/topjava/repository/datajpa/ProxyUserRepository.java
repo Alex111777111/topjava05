@@ -36,6 +36,9 @@ public interface ProxyUserRepository extends JpaRepository<User, Integer> {
 
     User getByEmail(String email);
 
-    @Query("SELECT m FROM UserMeal m LEFT JOIN FETCH m.user WHERE m.user.id=:userId ORDER BY m.dateTime DESC")
-    List<UserMeal> findUserWithMeal(@Param("userId") int userId);
+    //  SELECT u FROM User u LEFT JOIN FETCH u.roles ORDER BY u.name, u.email") ORDER BY u.meals.dateTime DESC
+
+    // @Query("SELECT m FROM UserMeal m LEFT JOIN FETCH m.user WHERE m.id=:id AND m.user.id=:userId")
+    @Query("SELECT u FROM User u LEFT JOIN FETCH u.meals WHERE u.id=:userId")
+    User findUserWithMeal(@Param("userId") int userId);
 }

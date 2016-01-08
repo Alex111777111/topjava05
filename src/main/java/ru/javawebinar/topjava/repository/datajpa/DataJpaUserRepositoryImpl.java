@@ -48,12 +48,7 @@ public class DataJpaUserRepositoryImpl implements UserRepository {
 
     @Override
     public User getUserWithMeals(int userId) {
-        List<UserMeal> userMeals = proxy.findUserWithMeal(userId);
-        if (!userMeals.isEmpty()) {
-            User user = userMeals.get(0).getUser();
-            user.setMeals(userMeals);
-            return user;
-        } else return null;
+        return proxy.findUserWithMeal(userId);
 
     }
 }
