@@ -52,3 +52,4 @@ public class SpringAdminInMemoryTest {
         controller.delete(10);
     }
 }
+
