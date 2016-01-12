@@ -14,6 +14,7 @@ import ru.javawebinar.topjava.LoggerWrapper;
 
 import java.util.concurrent.TimeUnit;
 
+import static ru.javawebinar.topjava.Profiles.HSQLDB;
 import static ru.javawebinar.topjava.Profiles.POSTGRES;
 
 /**
