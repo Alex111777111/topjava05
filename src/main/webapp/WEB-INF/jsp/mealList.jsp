@@ -22,7 +22,7 @@
 <section>
     <h2><a href="index.jsp">Home</a></h2>
     <h3>Meal list</h3>
-    <jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.model.UserMeal"/>
+    <%--  <jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.model.UserMeal"/>--%>
     <form method="post" action="meals?action=filter">
         <dl>
             <dt>From Date:</dt>
@@ -56,12 +56,13 @@
         </tr>
         </thead>
         <c:forEach items="${mealList}" var="meal">
-            <jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.to.UserMealWithExceed"/>
+            <%--  <jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.to.UserMealWithExceed"/>--%>
+            <%-- <tr>--%>
             <tr class="${meal.exceed ? 'exceeded' : 'normal'}">
                 <td>
-                        <%--<fmt:parseDate value="${meal.dateTime}" pattern="y-M-dd'T'H:m" var="parsedDate"/>--%>
-                        <%--<fmt:formatDate value="${parsedDate}" pattern="yyyy.MM.dd HH:mm" />--%>
-                    <%=TimeUtil.toString(meal.getDateTime())%>
+                    <fmt:parseDate value="${meal.dateTime}" pattern="y-M-dd'T'H:m" var="parsedDate"/>
+                    <fmt:formatDate value="${parsedDate}" pattern="yyyy.MM.dd HH:mm"/>
+                        <%-- <%=TimeUtil.toString(meal.getDateTime())%>--%>
                 </td>
                 <td>${meal.description}</td>
                 <td>${meal.calories}</td>
