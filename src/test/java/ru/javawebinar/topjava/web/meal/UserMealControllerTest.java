@@ -16,16 +16,6 @@ import static ru.javawebinar.topjava.MealTestData.*;
 public class UserMealControllerTest extends AbstractControllerTest {
 
     @Test
-    public void testGet() throws Exception {
-
-    }
-
-    @Test
-    public void testDelete() throws Exception {
-
-    }
-
-    @Test
     public void testGetAll() throws Exception {
         mockMvc.perform(get("/meals"))
                 .andDo(print())
@@ -43,19 +33,5 @@ public class UserMealControllerTest extends AbstractControllerTest {
     }
 
 
-    @Test
-    public void testUpdate() throws Exception {
 
-    }
-
-    @Test
-    public void testCreate() throws Exception {
-
-    }
-
-    @Test
-    public void testGetBetween() throws Exception {
-
-
-    }
 }

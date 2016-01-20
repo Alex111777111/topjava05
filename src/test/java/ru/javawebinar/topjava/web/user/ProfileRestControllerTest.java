@@ -2,6 +2,8 @@ package ru.javawebinar.topjava.web.user;
 
 import org.junit.Test;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import ru.javawebinar.topjava.LoggedUser;
 import ru.javawebinar.topjava.TestUtil;
 import ru.javawebinar.topjava.model.Role;
@@ -29,9 +31,10 @@ public class ProfileRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void testDelete() throws Exception {
         mockMvc.perform(delete(REST_URL).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().is(200));
         MATCHER.assertCollectionEquals(Collections.singletonList(ADMIN), userService.getAll());
     }
 
