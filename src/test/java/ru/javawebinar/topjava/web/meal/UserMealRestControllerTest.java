@@ -74,17 +74,17 @@ public class UserMealRestControllerTest extends AbstractControllerTest {
         ResultActions actions = mockMvc.perform(post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(created)))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
         UserMeal returned = MATCHER.fromJsonAction(actions);
         created.setId(returned.getId());
         MATCHER.assertEquals(created, returned);
         MATCHER.assertCollectionEquals(Arrays.asList(created, MEAL6, MEAL5, MEAL4, MEAL3, MEAL2, MEAL1), mealService.getAll(USER_ID));
-
-
     }
 
+
+
     @Test
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void testGetBetween() throws Exception {
         TestUtil.print(mockMvc.perform(get(REST_URL, "2015-06-30", "06:15:30", "2015-06-30", "22:00:00").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
