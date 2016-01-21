@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
         @NamedQuery(name = UserMeal.ALL_SORTED, query = "SELECT m FROM UserMeal m WHERE m.user.id=:userId ORDER BY m.dateTime DESC"),
         @NamedQuery(name = UserMeal.DELETE, query = "DELETE FROM UserMeal m WHERE m.id=:id AND m.user.id=:userId"),
         @NamedQuery(name = UserMeal.GET_BETWEEN,
-                query = "SELECT m from UserMeal m WHERE m.user.id=:userId " +
+                query = "SELECT m from UserMeal m LEFT JOIN FETCH m.user WHERE m.user.id=:userId " +
                         " AND m.dateTime BETWEEN :startDate AND :endDate ORDER BY m.dateTime DESC"),
 
 //        @NamedQuery(name = UserMeal.UPDATE, query = "UPDATE UserMeal m SET m.dateTime = :datetime, m.calories= :calories," +
