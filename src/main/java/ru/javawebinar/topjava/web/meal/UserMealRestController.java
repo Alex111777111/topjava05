@@ -11,7 +11,9 @@ import ru.javawebinar.topjava.to.UserMealWithExceed;
 
 import java.net.URI;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -60,9 +62,16 @@ public class UserMealRestController extends AbstractUserMealController {
         return new ResponseEntity<>(created, httpHeaders, HttpStatus.CREATED);
     }
 
-    @Override
-    @RequestMapping(value = "/filter", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
+    /*@Override
+    @RequestMapping(value = "/filter", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public List<UserMealWithExceed> getBetween(@RequestBody LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
         return super.getBetween(startDate, startTime, endDate, endTime);
+    }*/
+    @RequestMapping(value = "/getBetween", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<UserMealWithExceed> getBetween(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate) {
+        LocalDateTime stDate = LocalDateTime.parse(startDate, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        LocalDateTime enDate = LocalDateTime.parse(endDate, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
+        return super.getBetween(stDate.toLocalDate(), stDate.toLocalTime(), enDate.toLocalDate(), enDate.toLocalTime());
     }
 }

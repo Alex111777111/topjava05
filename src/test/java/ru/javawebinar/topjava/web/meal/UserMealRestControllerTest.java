@@ -84,9 +84,9 @@ public class UserMealRestControllerTest extends AbstractControllerTest {
 
 
     @Test
-    @RequestMapping(method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void testGetBetween() throws Exception {
-        TestUtil.print(mockMvc.perform(get(REST_URL, "2015-06-30", "06:15:30", "2015-06-30", "22:00:00").contentType(MediaType.APPLICATION_JSON))
+        TestUtil.print(mockMvc.perform(post(REST_URL, "2015-06-30T07:00:00'", "2015-06-30T22:00:00").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON)));
         //     .andExpect(MATCHER.contentListMatcher(USER_MEALS)));
