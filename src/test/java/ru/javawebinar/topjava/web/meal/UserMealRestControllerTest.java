@@ -10,12 +10,7 @@ import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.web.AbstractControllerTest;
 import ru.javawebinar.topjava.web.json.JsonUtil;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.Month;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Collections;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -86,29 +81,14 @@ public class UserMealRestControllerTest extends AbstractControllerTest {
     }
 
 
-
     @Test
     @RequestMapping(method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void testGetBetween() throws Exception {
-        //  get(REST_URL + "getBetween/?startDate="+startDate+"&endDate="+endDate).contentType(
         TestUtil.print(mockMvc.perform(get(REST_URL + "filter?startDate=2015-05-30T07:00:00&endDate=2015-05-30T22:00:00")
-                //  +LocalDateTime.of(2015, Month.MAY, 30, 7,0,0).format(DateTimeFormatter.ISO_DATE)
-                // "2015-06-30T07:00"+
-                //  +
-                // + LocalDateTime.of(2015, Month.MAY, 30, 22,0,0).format(DateTimeFormatter.ISO_DATE))
-                //  "2015-06-30T22:00")
-                //        + )
-              /*  mockMvc.perform(get(REST_URL + "getBetween/?startDate=" + LocalDateTime.of(2015, Month.MAY, 30, 7,0, 0).format(DateTimeFormatter.ISO_DATE)
-               // "2015-06-30T07:00:00"
-
-                +"&endDate= " + LocalDateTime.of(2015, Month.MAY, 30, 22,0, 0).format(DateTimeFormatter.ISO_DATE))
-               // "2015-06-30T22:00:00")
-
-             //    "2015-06-30T22:00:00")*/
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON)))
                 .andExpect(MATCHER.contentListMatcher(Arrays.asList(MEAL3, MEAL2, MEAL1)));
-        //TODO
+
     }
 }
