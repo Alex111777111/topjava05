@@ -32,7 +32,7 @@
 <ul>
    <li><a href="users"><fmt:message key="users.title"/></a></li>
    <li><a href="meals"><fmt:message key="meals.title"/></a></li>--%>
-    </ul>
+<%-- </ul>--%>
 </section>
 <jsp:include page="fragments/footer.jsp"/>
 </body>

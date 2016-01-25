@@ -1,4 +1,4 @@
-<div class="view-box">
+<%--<div class="view-box">
     <a class="btn btn-sm btn-info" id="add"><fmt:message key="users.add"/></a>
     <input type="checkbox"
            <c:if test="${user.enabled}">checked</c:if> id="${user.id}"/>
@@ -106,7 +106,7 @@
         oTable_datatable.dataTable(oTable_datatable_params);
         makeEditable();
     });
-</script>
+</script>--%>
 </html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
