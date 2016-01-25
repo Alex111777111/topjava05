@@ -2,6 +2,7 @@ package ru.javawebinar.topjava.web;
 
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+import ru.javawebinar.topjava.LoggedUser;
 import ru.javawebinar.topjava.LoggerWrapper;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.util.TimeUtil;
@@ -48,7 +49,7 @@ public class MealServlet extends HttpServlet {
                 mealController.create(userMeal);
             } else {
                 LOG.info("Update {}", userMeal);
-                mealController.update(userMeal);
+                mealController.update(userMeal, LoggedUser.id());
             }
             response.sendRedirect("meals");
         } else if (action.equals("filter")) {
