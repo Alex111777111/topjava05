@@ -78,33 +78,32 @@
                         <%--    <h3><fmt:message key="meals.title"/></h3>--%>
 
 
-
-                            <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Description</th>
-                                <th>Calories</th>
-                                <th></th>
-                                <th></th>
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Calories</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <c:forEach items="${mealList}" var="meal">
+                            <jsp:useBean id="meal" scope="page"
+                                         type="ru.javawebinar.topjava.to.UserMealWithExceed"/>
+                            <tr class="${meal.exceed ? 'exceeded' : 'normal'}">
+                                <td>
+                                        <%--<fmt:parseDate value="${meal.dateTime}" pattern="y-M-dd'T'H:m" var="parsedDate"/>--%>
+                                        <%--<fmt:formatDate value="${parsedDate}" pattern="yyyy.MM.dd HH:mm" />--%>
+                                    <%=TimeUtil.toString(meal.getDateTime())%>
+                                </td>
+                                <td>${meal.description}</td>
+                                <td>${meal.calories}</td>
+                                <td><a class="btn btn-xs btn-primary edit" id="${meal.id}">Update</a></td>
+                                <td><a class="btn btn-xs btn-danger delete" id="${meal.id}">Delete</a></td>
+                                </td>
                             </tr>
-                            </thead>
-                            <c:forEach items="${mealList}" var="meal">
-                                <jsp:useBean id="meal" scope="page"
-                                             type="ru.javawebinar.topjava.to.UserMealWithExceed"/>
-                                <tr class="${meal.exceed ? 'exceeded' : 'normal'}">
-                                    <td>
-                                            <%--<fmt:parseDate value="${meal.dateTime}" pattern="y-M-dd'T'H:m" var="parsedDate"/>--%>
-                                            <%--<fmt:formatDate value="${parsedDate}" pattern="yyyy.MM.dd HH:mm" />--%>
-                                        <%=TimeUtil.toString(meal.getDateTime())%>
-                                    </td>
-                                    <td>${meal.description}</td>
-                                    <td>${meal.calories}</td>
-                                    <td><a class="btn btn-xs btn-primary edit" id="${meal.id}">Update</a></td>
-                                    <td><a class="btn btn-xs btn-danger delete" id="${meal.id}">Delete</a></td>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                        </table>
+                        </c:forEach>
+                    </table>
                     </table>
                 </div>
             </div>
@@ -165,12 +164,12 @@
 
 
     var ajaxUrl = 'ajax/admin/meals/';
-    var oTable_mealdata;
-    var oTable_mealdata_params;
+    var oTable_datatable;
+    var oTable_datatable_params;
     $(document).ready(function () {
         // $(function () {
-        oTable_mealdata = $('#mealdata');
-        oTable_mealdata_params = {
+        oTable_datatable = $('#datatable');
+        oTable_datatable_params = {
             "bPaginate": false,
             "bInfo": false,
             "aoColumns": [
@@ -199,7 +198,7 @@
                 ]
             ]
         };
-        oTable_mealdata.dataTable(oTable_mealdata_params);
+        oTable_datatable.dataTable(oTable_datatable_params);
         makeEditable();
     });
 </script>
