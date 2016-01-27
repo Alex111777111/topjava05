@@ -74,7 +74,7 @@
 
                     <hr>
 
-                    <table class="table table-striped display" id="mealdata">
+                    <table class="table table-striped display" id="datatable">
                         <%--    <h3><fmt:message key="meals.title"/></h3>--%>
 
 
