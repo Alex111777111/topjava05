@@ -61,11 +61,11 @@
                             </td>
                             <td>${meal.description}</td>
                             <td>${meal.calories}</td>
-                                <%-- <td><a class="btn btn-xs btn-primary">Edit</a></td>
-                                 <td><a class="btn btn-xs btn-danger">Delete</a></td>
-     --%>
-                            <td><a class="btn btn-xs btn-primary edit" id="${meal.id}">Edit</a></td>
-                            <td><a class="btn btn-xs btn-danger delete" id="${meal.id}">Delete</a></td>
+                            <td><a class="btn btn-xs btn-primary">Edit</a></td>
+                            <td><a class="btn btn-xs btn-danger">Delete</a></td>
+
+                                <%-- <td><a class="btn btn-xs btn-primary edit" id="${meal.id}">Edit</a></td>
+                                 <td><a class="btn btn-xs btn-danger delete" id="${meal.id}">Delete</a></td>--%>
                         </tr>
                     </c:forEach>
                 </table>

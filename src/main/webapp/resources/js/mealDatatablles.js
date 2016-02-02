@@ -31,31 +31,33 @@ $(function () {
             },
             {
                 "mData": "description",
-                /* "mRender": function (data, type, row) {
-                 if (type == 'display') {
-                 return '<a href="mailto:' + data + '">' + data + '</a>';
+                "mRender": function (data, type, row) {
+                    /*if (type == 'display') {
+                     return '<a href="mailto:' + data + '">' + data + '</a>';
+                     }*/
+                    return data;
                  }
-                 return data;
-                 }*/
+
             },
 
             {
                 "mData": "calories",
-                /*"mRender": function (data, type, row) {
-                 if (type == 'display') {
-                 return '<input type="checkbox" ' + (data ? 'checked' : '') + ' onclick="enable($(this),' + row.id + ');"/>';
-                 }
-                 return data;
-                 }*/
+                "mRender": function (data, type, row) {
+                    /* if (type == 'display') {
+                     return '<input type="checkbox" ' + (data ? 'checked' : '') + ' onclick="enable($(this),' + row.id + ');"/>';
+                     }*/
+                    return data;
+                }
             },
             {
                 "bSortable": false,
-                "sDefaultContent": "Edit",
+                "sDefaultContent": "",
                 "mRender": renderEditBtn
             },
             {
                 "bSortable": false,
-                "sDefaultContent": "Delete", "mRender": renderDeleteBtn
+                "sDefaultContent": "",
+                "mRender": renderDeleteBtn
             }
         ],
         "aaSorting": [
