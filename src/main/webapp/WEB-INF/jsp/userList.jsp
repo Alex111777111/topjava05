@@ -1,13 +1,13 @@
-</tr>
+<%--</tr>
 </thead>
-<td><a class="btn btn-xs btn-primary edit">Edit</a></td>
-<td><a class="btn btn-xs btn-danger delete">Delete</a></td>
+&lt;%&ndash;<td><a class="btn btn-xs btn-primary edit">Edit</a></td>
+<td><a class="btn btn-xs btn-danger delete">Delete</a></td>&ndash;%&gt;
 <input type="checkbox"
        <c:if test="${user.enabled}">checked</c:if> onclick="enable($(this))"/>
 <div class="view-box">
     <a class="btn btn-sm btn-info" id="add"><fmt:message key="users.add"/></a>
     <input type="checkbox"
-           <c:if test="${user.enabled}">checked</c:if> id="${user.id}"/>
+          &lt;%&ndash; <c:if test="${user.enabled}">checked</c:if> id="${user.id}"/>&ndash;%&gt;
     <td><a class="btn btn-xs btn-primary edit" id="${user.id}">Edit</a></td>
     <td><a class="btn btn-xs btn-danger delete" id="${user.id}">Delete</a></td>
 </div>
@@ -113,7 +113,7 @@
         makeEditable();
     });
 </script>
-</html>
+</html>--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>

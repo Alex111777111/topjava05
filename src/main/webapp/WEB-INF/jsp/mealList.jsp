@@ -61,8 +61,11 @@
                             </td>
                             <td>${meal.description}</td>
                             <td>${meal.calories}</td>
-                            <td><a class="btn btn-xs btn-primary edit">Edit</a></td>
-                            <td><a class="btn btn-xs btn-danger delete">Delete</a></td>
+                                <%-- <td><a class="btn btn-xs btn-primary">Edit</a></td>
+                                 <td><a class="btn btn-xs btn-danger">Delete</a></td>
+     --%>
+                            <td><a class="btn btn-xs btn-primary edit" id="${meal.id}">Edit</a></td>
+                            <td><a class="btn btn-xs btn-danger delete" id="${meal.id}">Delete</a></td>
                         </tr>
                     </c:forEach>
                 </table>
@@ -82,10 +85,10 @@
                 <form class="form-horizontal" method="post" id="detailsForm">
                     <input type="hidden" id="id" name="id">
                     <div class="form-group">
-                        <label for="datetime" class="control-label col-xs-3">Date</label>
+                        <label for="dateTime" class="control-label col-xs-3">Date</label>
                         <div class="col-xs-9">
-                            <input type="datetime-local" class="form-control" id="datetime"
-                                   name="datetime" placeholder="Date">
+                            <input type="datetime-local" class="form-control" id="dateTime"
+                                   name="dateTime" placeholder="Date">
                         </div>
                     </div>
                     <div class="form-group">
