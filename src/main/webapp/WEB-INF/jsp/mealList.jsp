@@ -51,23 +51,23 @@
                         <th></th>
                     </tr>
                     </thead>
-                    <c:forEach items="${mealList}" var="meal">
-                        <jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.to.UserMealWithExceed"/>
-                        <tr class="${meal.exceed ? 'exceeded' : 'normal'}" id="${meal.id}">
-                            <td>
-                                    <%--<fmt:parseDate value="${meal.dateTime}" pattern="y-M-dd'T'H:m" var="parsedDate"/>--%>
-                                    <%--<fmt:formatDate value="${parsedDate}" pattern="yyyy.MM.dd HH:mm" />--%>
-                                <%=TimeUtil.toString(meal.getDateTime())%>
-                            </td>
-                            <td>${meal.description}</td>
-                            <td>${meal.calories}</td>
-                            <td><a class="btn btn-xs btn-primary">Edit</a></td>
-                            <td><a class="btn btn-xs btn-danger">Delete</a></td>
+                    <%--  <c:forEach items="${mealList}" var="meal">
+                          <jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.to.UserMealWithExceed"/>
+                          <tr class="${meal.exceed ? 'exceeded' : 'normal'}" id="${meal.id}">
+                              <td>
+                                      &lt;%&ndash;<fmt:parseDate value="${meal.dateTime}" pattern="y-M-dd'T'H:m" var="parsedDate"/>&ndash;%&gt;
+                                      &lt;%&ndash;<fmt:formatDate value="${parsedDate}" pattern="yyyy.MM.dd HH:mm" />&ndash;%&gt;
+                                  <%=TimeUtil.toString(meal.getDateTime())%>
+                              </td>
+                              <td>${meal.description}</td>
+                              <td>${meal.calories}</td>
+                              <td><a class="btn btn-xs btn-primary">Edit</a></td>
+                              <td><a class="btn btn-xs btn-danger">Delete</a></td>
 
-                                <%-- <td><a class="btn btn-xs btn-primary edit" id="${meal.id}">Edit</a></td>
-                                 <td><a class="btn btn-xs btn-danger delete" id="${meal.id}">Delete</a></td>--%>
-                        </tr>
-                    </c:forEach>
+                                  &lt;%&ndash; <td><a class="btn btn-xs btn-primary edit" id="${meal.id}">Edit</a></td>
+                                   <td><a class="btn btn-xs btn-danger delete" id="${meal.id}">Delete</a></td>&ndash;%&gt;
+                          </tr>
+                      </c:forEach>--%>
                 </table>
             </div>
         </div>

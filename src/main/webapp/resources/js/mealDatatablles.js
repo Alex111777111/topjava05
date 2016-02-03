@@ -27,7 +27,7 @@ $(function () {
                             return '<span>' + dateObject.toISOString().substring(0, 10) + '</span>';
                         }
                         return date;
-                                }
+                    }
                 },
                 {
                     "mData": "description"
@@ -44,7 +44,7 @@ $(function () {
                     "bSortable": false,
                     "sDefaultContent": "",
                     "mRender": renderDeleteBtn
-                            }
+                }
             ],
             "aaSorting": [
                 [
@@ -52,6 +52,14 @@ $(function () {
                     "desc"
                 ]
             ],
+            "exceedRow": function (row, data, dataIndex) {
+                if (data.exceed) {
+                    $(row).css("text-color", "green")
+                }
+                else {
+                    $(row).css("text-color", "red")
+                }
+            },
             "initComplete": makeEditable
         });
         $('#filter').submit(function () {
