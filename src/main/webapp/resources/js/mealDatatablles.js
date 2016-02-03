@@ -7,69 +7,59 @@ function updateTable() {
     $.ajax({
         type: "POST",
         url: ajaxUrl + 'filter',
-        data: $('#filter').serialize(),
-        success: function (data) {
-            updateTableByData(data);
-        }
+        data: $('#filter').serialize()
     });
     return false;
 }
 
-
 $(function () {
-    datatableApi = $('#datatable').DataTable({
-        "sAjaxSource": ajaxUrl,
-        "sAjaxDataProp": "",
-        "bPaginate": false,
-        "bInfo": false,
-        "aoColumns": [
-            $(function () {
-                datatableApi = $('#datatable').DataTable({
-                    "bPaginate": false,
-                    "bInfo": false,
-                    "aoColumns": [
-                        {
-                            "mData": "dateTime",
-                            "mRender": function (date, type, row) {
-                                if (type == 'display') {
-                                    var dateObject = new Date(date);
-                                    return '<span>' + dateObject.toISOString().substring(0, 10) + '</span>';
-                                }
-                                return date;
-                            }
-                        },
-                        {
-                            "mData": "description"
-                        },
-                        {
-                            "mData": "calories"
-                        },
-                        {
-                            "bSortable": false,
-                            "sDefaultContent": "",
-                            "mRender": renderEditBtn
-                        },
-                        {
-                            "bSortable": false,
-                            "sDefaultContent": "",
-                            "mRender": renderDeleteBtn
+        datatableApi = $('#datatable').DataTable({
+            "sAjaxSource": ajaxUrl,
+            "sAjaxDataProp": "",
+            "bPaginate": false,
+            "bInfo": false,
+            "aoColumns": [
+                {
+                    "mData": "dateTime",
+                    "mRender": function (date, type, row) {
+                        if (type == 'display') {
+                            var dateObject = new Date(date);
+                            return '<span>' + dateObject.toISOString().substring(0, 10) + '</span>';
                         }
-                    ],
-                    "aaSorting": [
-                        [
-                            0,
-                            "desc"
-                        ]
-                    ]
-                });
-            })]
-    });
+                        return date;
+                                }
+                },
+                {
+                    "mData": "description"
+                },
+                {
+                    "mData": "calories"
+                },
+                {
+                    "bSortable": false,
+                    "sDefaultContent": "",
+                    "mRender": renderEditBtn
+                },
+                {
+                    "bSortable": false,
+                    "sDefaultContent": "",
+                    "mRender": renderDeleteBtn
+                            }
+            ],
+            "aaSorting": [
+                [
+                    0,
+                    "desc"
+                ]
+            ],
+            "initComplete": makeEditable
+        });
         $('#filter').submit(function () {
             updateTable();
             return false;
         });
         makeEditable();
         init();
-            },
+    },
     function init() {
-    })
+    });
