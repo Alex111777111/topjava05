@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.web;
 
+import org.springframework.beans.NotReadablePropertyException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -8,9 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
 import ru.javawebinar.topjava.LoggedUser;
+import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.to.UserTo;
 import ru.javawebinar.topjava.util.UserUtil;
+import ru.javawebinar.topjava.util.exception.ValidationException;
 import ru.javawebinar.topjava.web.user.AbstractUserController;
 
 import javax.validation.Valid;
@@ -76,7 +80,14 @@ public class RootController extends AbstractUserController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String saveRegister(@Valid UserTo userTo, BindingResult result, SessionStatus status, ModelMap model) {
-        if (result.hasErrors()) {
+        if (super.getByMail(userTo.getEmail()) != null) {
+            result.rejectValue("e-mail", "", "User with this email already present in application");
+            ModelAndView mav = new ModelAndView("exception/exception");
+            mav.addObject("exception", new NotReadablePropertyException(UserTo.class, "e-mail", "User with this email already present in application"));
+            // mav.addObject("message", "User with this email already present in application");
+            //  model.addAttribute("exception.message", "User with this email already present in application");
+            return mav.getViewName();
+        } else if (result.hasErrors()) {
             model.addAttribute("register", true);
             return "profile";
         } else {
