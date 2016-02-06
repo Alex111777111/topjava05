@@ -9,6 +9,7 @@ import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.to.UserTo;
 import ru.javawebinar.topjava.util.UserUtil;
+import ru.javawebinar.topjava.web.ExceptionInfoHandler;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/ajax/admin/users")
-public class AdminAjaxController extends AbstractUserController {
+public class AdminAjaxController extends AbstractUserController implements ExceptionInfoHandler {
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getAll() {
@@ -38,6 +39,7 @@ public class AdminAjaxController extends AbstractUserController {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<String> createOrUpdate(@Valid UserTo userTo, BindingResult result) {
         if (result.hasErrors()) {
+            // TODO change to exception handler
             StringBuilder sb = new StringBuilder();
             result.getFieldErrors().forEach(fe -> sb.append(fe.getField()).append(" ").append(fe.getDefaultMessage()).append("<br>"));
             return new ResponseEntity<>(sb.toString(), HttpStatus.UNPROCESSABLE_ENTITY);
