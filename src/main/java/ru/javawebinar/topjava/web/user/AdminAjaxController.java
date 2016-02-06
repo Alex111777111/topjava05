@@ -46,21 +46,12 @@ public class AdminAjaxController extends AbstractUserController {
             super.create(UserUtil.createFromTo(userTo));
         } else {
             super.update(userTo);
-                               @RequestParam("name") String name,
-                               @RequestParam("email") String email,
-                               @RequestParam("password") String password) {
-
-        User user = new User(id, name, email, password, Role.ROLE_USER);
-        if (id == 0) {
-            super.create(user);
-        } else {
-            super.update(user, id);
         }
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
-            @RequestMapping(value = "/{id}", method = RequestMethod.POST)
-            public void enabled ( @PathVariable("id") int id, @RequestParam("enabled") boolean enabled){
-                super.enable(id, enabled);
+    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
+    public void enabled(@PathVariable("id") int id, @RequestParam("enabled") boolean enabled) {
+        super.enable(id, enabled);
     }
 }

@@ -80,18 +80,6 @@
         </div>
     </div>
 </div>
-                        <%--<fmt:parseDate value="${meal.dateTime}" pattern="y-M-dd'T'H:m" var="parsedDate"/>--%>
-                        <%--<fmt:formatDate value="${parsedDate}" pattern="yyyy.MM.dd HH:mm" />--%>
-                    <%=TimeUtil.toString(meal.getDateTime())%>
-                </td>
-                <td>${meal.description}</td>
-                <td>${meal.calories}</td>
-                <td><a href="meals/update?id=${meal.id}">Update</a></td>
-                <td><a href="meals/delete?id=${meal.id}">Delete</a></td>
-            </tr>
-        </c:forEach>
-    </table>
-</section>
 <jsp:include page="fragments/footer.jsp"/>
 
 <div class="modal fade" id="editRow">
