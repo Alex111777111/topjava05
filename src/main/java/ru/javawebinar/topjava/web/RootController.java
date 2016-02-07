@@ -81,12 +81,8 @@ public class RootController extends AbstractUserController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String saveRegister(@Valid UserTo userTo, BindingResult result, SessionStatus status, ModelMap model) {
         if (super.getByMail(userTo.getEmail()) != null) {
-            result.rejectValue("e-mail", "", "User with this email already present in application");
-            ModelAndView mav = new ModelAndView("exception/exception");
-            mav.addObject("exception", new NotReadablePropertyException(UserTo.class, "e-mail", "User with this email already present in application"));
-            // mav.addObject("message", "User with this email already present in application");
-            //  model.addAttribute("exception.message", "User with this email already present in application");
-            return mav.getViewName();
+            result.rejectValue("email", "user.error", "User with this email already present in application.");
+            throw new ValidationException(result);
         } else if (result.hasErrors()) {
             model.addAttribute("register", true);
             return "profile";
