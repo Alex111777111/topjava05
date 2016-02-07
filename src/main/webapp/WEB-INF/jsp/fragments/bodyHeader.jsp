@@ -6,6 +6,8 @@
 
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
+        Language :<a href="?language=ru_RU">Русский</a>|<a href="?language=en">English</a>
+        Current Locale : ${pageContext.response.locale}
         <a href="<c:url value='/meals'/>" class="navbar-brand"><fmt:message key="app.title"/></a>
 
         <div class="collapse navbar-collapse">
